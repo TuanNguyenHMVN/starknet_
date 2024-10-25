@@ -1,0 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+
+.app-container {
+  margin-top: 75px;
+  min-height: 80vh;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none !important;
+}
+
+.btn-primary {
+  background: #0f0b46 !important;
+  color: #fff;
+  border: none;
+}
+.btn-secondary {
+  background: #e4e4ea !important;
+  border: none;
+  color: #57547e;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+@for $i from 1 through 100 {
+  .font-#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+@for $i from 1 through 1000 {
+  .font-weight-#{$i} {
+    font-weight: #{$i} !important;
+  }
+}
+
+@for $i from 1 through 1000 {
+  .w-#{$i} {
+    width: $i * 1% !important;
+  }
+}
+
+@for $i from 1 through 100 {
+  .h-#{$i} {
+    height: $i * 1% !important;
+  }
+}

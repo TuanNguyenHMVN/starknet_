@@ -1,0 +1,81 @@
+.footer-links {
+  a {
+    padding: 0 15px;
+    text-decoration: none;
+    color: #0f0b46;
+    line-height: 12px;
+  }
+  .home-link,
+  .staking-link {
+    border-right: 2px solid #0f0b46;
+  }
+}
+.site-name {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 100;
+  color: #0f0b46;
+}
+.subtitle {
+  color: #0f0b46;
+}
+.highlight-text {
+  color: #c988a0;
+}
+.text-description {
+  margin-left: -10px;
+}
+.telegram-icon {
+  margin-right: 10px;
+}
+.authorship {
+  border-top: 1px solid #ccc;
+  margin-top: 15px;
+  padding: 15px 0px;
+}
+.social-links {
+  text-align: right;
+}
+.md-footer {
+  .footer-site-name {
+    width: 50%;
+  }
+  .footer-social,
+  .menu-links {
+    width: 25%;
+    text-align: center;
+  }
+}
+.sm-footer {
+  .footer-links {
+    margin: 20px auto;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .site-name {
+    font-size: 40px !important;
+  }
+  .menu-links,
+  .authorship,
+  .subtitle,
+  .highlight-text {
+    font-size: 12px !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .md-footer {
+    display: none !important;
+  }
+  .social-icon {
+    font-size: 32px !important;
+  }
+}
+@media screen and (max-width: 575.98px) {
+  .sm-hide {
+    display: none !important;
+  }
+}
+@media screen and (min-width: 768px) {
+  .sm-footer {
+    display: none !important;
+  }
+}
