@@ -1,0 +1,112 @@
+.wallet-wrapper {
+  .wallet {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 70%;
+    .wallet-label {
+      font-weight: 600;
+      font-size: 14px;
+      padding: 0;
+      margin-bottom: 5px;
+    }
+    .combo-btn {
+      img {
+        width: 45px;
+      }
+    }
+    .available-to-stake-input {
+      background: #ededf6;
+      padding: 10px 10px;
+      margin-bottom: 10px;
+    }
+    .token-address {
+      background: #e4e4e4;
+      border-radius: 15px;
+      padding: 5px 15px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      img {
+        height: 15px;
+        width: 15px;
+        margin-left: 5px;
+      }
+    }
+    .amount-to-stake-input,
+    .estimated-reward-input {
+      margin-bottom: 10px;
+      border: 1px solid #e4e4e4;
+      padding: 5px 15px;
+      .max-stake-btn {
+        background: #e4e4e4;
+        padding: 5px 15px;
+        border-radius: 20px;
+        margin-right: 10px;
+      }
+      img {
+        height: 25px;
+        margin-right: 10px;
+      }
+    }
+    .estimated-reward-input {
+      padding: 10px;
+    }
+    .description {
+      font-size: 12px;
+    }
+    .count-request {
+      margin-bottom: 10px;
+      margin-top: 10px;
+      span {
+        font-size: 12px;
+      }
+    }
+    .withdraw-combo-btn {
+      padding: 0;
+      background: #e4e4ea;
+      width: fit-content;
+      border-radius: 25px;
+      button {
+        border-radius: 25px;
+        padding: 5px 10px;
+        border: none;
+        width: 100px;
+      }
+    }
+  }
+  .clock-icon {
+    margin-left: 10px;
+  }
+  .stake-withdraw-btn {
+    background: #e4e4ea;
+    width: fit-content;
+    border-radius: 25px;
+    margin-bottom: 10px;
+    button {
+      border-radius: 25px;
+      padding: 10px 25px;
+      border: none;
+      width: 110px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .wallet {
+      margin: auto;
+      margin-top: 20px;
+    }
+    .combo-btn-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      .stake-withdraw-btn {
+        margin-bottom: 0;
+      }
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 992px) {
+    .wallet {
+      width: 100%;
+    }
+  }
+}

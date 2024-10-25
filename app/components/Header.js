@@ -1,7 +1,7 @@
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
-export default function Header() {
+const Header = () => {
   return (
     <div className={styles["header-container"]}>
       <div
@@ -21,5 +21,5 @@ export default function Header() {
       </div>
     </div>
   );
-}
-// "container header-wrapper d-flex align-items-center justify-content-between"
+};
+export default Header;

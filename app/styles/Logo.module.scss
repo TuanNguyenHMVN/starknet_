@@ -1,13 +1,17 @@
-.banner-wrapper {
+.logo-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  width: 85%;
   img {
     width: 300px;
   }
-  h1 {
-    width: 80%;
+}
+
+@media screen and (max-width: 768px) {
+  .logo-wrapper {
+    width: 100%;
   }
 }
