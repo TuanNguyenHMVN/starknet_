@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Row, Button, Col } from "react-bootstrap";
 import styles from "../styles/Wallet.module.scss";
+import animations from "../styles/Animation.module.scss";
 import StakeForm from "./StakeForm";
 import WithdrawForm from "./WithdrawForm";
 import useStore from "../store/useStore";
@@ -31,7 +32,7 @@ export default function Wallet() {
   };
 
   return (
-    <div>
+    <div className={animations.fadeInRight}>
       <div className={styles["wallet-wrapper"]}>
         <Row>
           <Col md="12" className={styles["combo-btn-wrapper"]}>
@@ -57,7 +58,7 @@ export default function Wallet() {
           {isStake && <StakeForm />} {isWithdraw && <WithdrawForm />}
         </Row>
       </div>
-      <div>
+      <div className={styles['login-btn-wrapper']}>
       { !wallet?.address &&
         <Button
           variant="primary"
