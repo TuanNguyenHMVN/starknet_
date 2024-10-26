@@ -25,7 +25,6 @@ export default function Wallet() {
       const starknet = window.starknet;
       await starknet.enable();
       updateWallet(starknet.account)
-      console.log("🚀 ~ connectWal ~ starknet:", starknet)
     } else {
       alert('Please install a Starknet wallet like Argent X');
     }
@@ -61,12 +60,12 @@ export default function Wallet() {
       <div>
       { !wallet?.address &&
         <Button
-        variant="primary"
-        className={styles['login-btn']}
-        onClick={() => connectWallet()}
-      >
-        Connect Wallet
-      </Button>
+          variant="primary"
+          className={styles['login-btn']}
+          onClick={() => connectWallet()}
+        >
+          Connect Wallet
+        </Button>
       }
       </div>
     </div>
