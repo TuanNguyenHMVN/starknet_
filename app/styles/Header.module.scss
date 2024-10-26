@@ -7,6 +7,9 @@
   width: 100%;
   height: 50px;
   .header-wrapper {
+    .dropdown-menu {
+      display: none;
+    }
     .header-name {
       font-family: "Fredoka", sans-serif;
       font-weight: 100;
@@ -52,20 +55,15 @@
         }
       }
     }
-    .menu-dropdown-icon {
-      display: none;
-      .dropdown-icon {
-        font-size: 24px;
-        color: #0f0b46;
-      }
-    }
+  }
+  .account-info {
+    border: 2px solid #0f0b46;
+    padding: 3px 15px;
+    border-radius: 20px;
   }
 }
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
   .links-and-wallets {
     display: none !important;
-  }
-  .menu-dropdown-icon {
-    display: block !important;
   }
 }

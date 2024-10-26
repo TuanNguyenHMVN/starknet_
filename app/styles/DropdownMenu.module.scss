@@ -1,0 +1,32 @@
+.menu-dropdown-icon {
+  display: none;
+  .dropdown-icon {
+    font-size: 24px;
+    color: #0f0b46;
+  }
+}
+
+.menu-dropdown-icon {
+  font-size: 24px;
+  color: #0f0b46;
+  ::after {
+    display: none;
+  } 
+}
+
+.dropdown-item {
+  color: #0f0b46 !important;
+}
+
+.account-info {
+  border: 2px solid #0f0b46;
+  padding: 3px 15px;
+  border-radius: 20px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .menu-dropdown-icon {
+    display: block !important;
+  }
+}
