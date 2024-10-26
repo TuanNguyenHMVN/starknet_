@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Your App Title</title>
+        <title>Stakestark_</title>
       </head>
       <body>
         <div className="starknet-app">

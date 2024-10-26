@@ -1,17 +1,27 @@
 import React from "react";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Button } from "react-bootstrap";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import styles from "../styles/DropdownMenu.module.scss";
 
 const DropdownMenu = () => {
-  const {wallet} = useStore();
+  const {wallet, updateWallet} = useStore();
 
   const [walletAddress, setWalletAddress] = useState('')
 
   useEffect(() => {
     setWalletAddress(wallet.address || '')
   }, [wallet])
+
+  const connectWallet = async () => {
+    if (window.starknet) {
+      const starknet = window.starknet;
+      await starknet.enable();
+      updateWallet(starknet.account)
+    } else {
+      alert('Please install a Starknet wallet like Argent X');
+    }
+  };
   return (
     <div className={styles['menu-dropdown-icon']}>
       <Dropdown>
@@ -21,9 +31,16 @@ const DropdownMenu = () => {
 
         <Dropdown.Menu>
           <Dropdown.Item>
-            <div className={styles['account-info']}>
+            {walletAddress && <div className={styles['account-info']}>
               {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`} <img src="/images/token-icon.svg" />
-            </div>
+            </div>}
+            {!walletAddress && <Button
+              variant="primary"
+              className={styles['login-btn']}
+              onClick={() => connectWallet()}
+            >
+              Connect Wallet
+            </Button>}
           </Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item href="/home">Home</Dropdown.Item>
