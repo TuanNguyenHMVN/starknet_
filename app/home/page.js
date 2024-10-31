@@ -1,18 +1,34 @@
-'use client'; // Required for client components
+// app/embedded/page.js
+"use client";
 
-import { useRouter } from 'next/navigation';
-export default function Home() {
-  const router = useRouter();
+import { useEffect, useState } from "react";
 
-  const handleNavigate = () => {
-    router.push('/staking'); // Navigate to the About page
-  };
+export default function EmbeddedPage() {
+  const [htmlContent, setHtmlContent] = useState("");
+
+  useEffect(() => {
+    // Fetch the HTML file from the public folder
+    fetch("/homepage/index.html")
+      .then((response) => response.text())
+      .then((html) => setHtmlContent(html));
+
+    // Load the external JavaScript file
+    const script = document.createElement("script");
+    script.src = "/homepage/script.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
-    <div className="container text-center">
-      <h1 className="text-center mt-5">
-        Welcome to Stakestark_ Application!
-      </h1>
-      <button className="btn btn-primary" onClick={handleNavigate}>Start Staking</button>
+    <div>
+      {/* Link the CSS file */}
+      <style>{`@import url('/homepage/style.css');`}</style>
+      {/* Render the HTML content */}
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
     </div>
   );
 }

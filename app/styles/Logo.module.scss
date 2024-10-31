@@ -3,15 +3,47 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  width: 85%;
   img {
     width: 300px;
+    margin-top: 40px;
+  }
+  .logo-title {
+    font-size: 48px;
+    width: 70%;
+    line-height: 60px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .logo-wrapper {
     width: 100%;
+    .logo-title {
+      font-size: 32px;
+      width: 100%;
+      text-align: center;
+      line-height: 40px;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1440px) {
+  .logo-wrapper {
+    width: 100%;
+    .logo-title {
+      font-size: 40px;
+      // width: 60%;
+      line-height: 40px;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .logo-wrapper {
+    width: 100%;
+    .logo-title {
+      font-size: 32px;
+      width: 100%;
+      line-height: 40px;
+    }
   }
 }

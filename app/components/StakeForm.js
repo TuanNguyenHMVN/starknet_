@@ -1,16 +1,26 @@
 import styles from "../styles/StakeForm.module.scss";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 
 const StakeForm = ({}) => {
-  const {wallet} = useStore();
+  const { wallet, updateWallet } = useStore();
 
-  const [walletAddress, setWalletAddress] = useState('')
+  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
-    setWalletAddress(wallet.address || '')
-  }, [wallet])
+    setWalletAddress(wallet.address || "");
+  }, [wallet]);
+
+  const connectWallet = async () => {
+    if (window.starknet) {
+      const starknet = window.starknet;
+      await starknet.enable();
+      updateWallet(starknet.account);
+    } else {
+      alert("Please install a Starknet wallet like Argent X");
+    }
+  };
 
   return (
     <div className={styles["stake-form-container"]}>
@@ -24,7 +34,8 @@ const StakeForm = ({}) => {
         >
           <div>213.00 STRK</div>
           <div className={styles["wallet-info"]}>
-            {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`} <img src="/images/token-icon.svg" />
+            {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
+            <img src="/images/token-icon.svg" />
           </div>
         </Col>
         <Col md="12" className={styles.label}>
@@ -55,6 +66,34 @@ const StakeForm = ({}) => {
             <img src="/images/starknet-icon.svg" />
             <span>dstSTRK</span>
           </div>
+        </Col>
+        <Col md="12" className="p-0">
+          {wallet?.address && (
+            <Button variant="primary" className={styles["stake-btn"]}>
+              Stake Now
+            </Button>
+          )}
+          {!wallet?.address && (
+            <div
+              className={`${styles["login-btn-wrappper"]} d-flex align-items-center`}
+            >
+              <Button
+                variant="primary"
+                className={styles["login-btn"]}
+                onClick={() => connectWallet()}
+              >
+                Connect Wallet
+              </Button>
+              <img
+                className={styles["wallet-icon"]}
+                src="/images/helmet-icon.png"
+              />
+              <img
+                className={`${styles["wallet-icon"]} ${styles["argenx-icon"]}`}
+                src="/images/wallet-icon.png"
+              />
+            </div>
+          )}
         </Col>
         <Col md="12" className={`${styles.description} font-12`}>
           *By staking, you agree to lock your tokens for a specified period. You

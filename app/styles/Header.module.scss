@@ -21,7 +21,7 @@
       a {
         color: #0f0b46;
         text-decoration: none;
-        padding: 0 15px;
+        padding: 0 45px;
       }
       .active {
         color: #4087dd !important;
@@ -57,9 +57,12 @@
     }
   }
   .account-info {
-    border: 2px solid #0f0b46;
+    border: 1px solid #0f0b46;
     padding: 3px 15px;
     border-radius: 20px;
+    span {
+      padding: 0 10px;
+    }
   }
   .login-btn {
     margin-top: 10px;
@@ -70,5 +73,18 @@
 @media screen and (max-width: 768px) {
   .links-and-wallets {
     display: none !important;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .header-container {
+    .header-wrapper {
+      .menu-link,
+      .menu-dropdown-icon {
+        a {
+          padding: 0 15px;
+        }
+      }
+    }
   }
 }

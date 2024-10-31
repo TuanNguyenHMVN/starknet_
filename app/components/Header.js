@@ -1,28 +1,28 @@
 "use client";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
 const Header = () => {
   const pathname = usePathname();
-  const {wallet, updateWallet} = useStore();
+  const { wallet, updateWallet } = useStore();
 
-  const [walletAddress, setWalletAddress] = useState('')
+  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
-    setWalletAddress(wallet.address || '')
-  }, [wallet])
+    setWalletAddress(wallet.address || "");
+  }, [wallet]);
 
   const connectWallet = async () => {
     if (window.starknet) {
       const starknet = window.starknet;
       await starknet.enable();
-      updateWallet(starknet.account)
+      updateWallet(starknet.account);
     } else {
-      alert('Please install a Starknet wallet like Argent X');
+      alert("Please install a Starknet wallet like Argent X");
     }
   };
 
@@ -36,26 +36,45 @@ const Header = () => {
         </div>
         <div className={styles["links-and-wallets"]}>
           <div className={styles["menu-link"]}>
-            <a className={`${pathname == '/home' ? styles.active : ''}`} href="/">Home</a>
-            <a className={`${pathname == '/staking' ? styles.active : ''}`} href="/staking">Staking</a>
-            <a className={`${pathname == '/faq' ? styles.active : ''}`} href="/faq">FAQs</a>
+            <a
+              className={`${pathname == "/home" ? styles.active : ""}`}
+              href="/"
+            >
+              Home
+            </a>
+            <a
+              className={`${pathname == "/staking" ? styles.active : ""}`}
+              href="/staking"
+            >
+              Staking
+            </a>
+            <a
+              className={`${pathname == "/faq" ? styles.active : ""}`}
+              href="/faq"
+            >
+              FAQs
+            </a>
           </div>
-          { walletAddress &&
-            <div className={styles['account-info']}>
-              {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`} <img src="/images/token-icon.svg" />
+          {walletAddress && (
+            <div className={styles["account-info"]}>
+              <span>213 STRK</span> |{" "}
+              <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
+                -3
+              )}`}</span>{" "}
+              <img src="/images/token-icon.svg" />
             </div>
-          }
-          { !walletAddress && 
+          )}
+          {!walletAddress && (
             <Button
               variant="primary"
-              className={styles['login-btn']}
+              className={styles["login-btn"]}
               onClick={() => connectWallet()}
             >
               Connect Wallet
             </Button>
-          }
+          )}
         </div>
-        <DropdownMenu className={styles['dropdown-menu']} />
+        <DropdownMenu className={styles["dropdown-menu"]} />
       </div>
     </div>
   );

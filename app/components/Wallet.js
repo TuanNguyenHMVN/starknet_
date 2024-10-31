@@ -7,7 +7,6 @@ import StakeForm from "./StakeForm";
 import WithdrawForm from "./WithdrawForm";
 import useStore from "../store/useStore";
 export default function Wallet() {
-  const { wallet, updateWallet } = useStore();
   const [isStake, setIsStake] = useState(true);
   const [isWithdraw, setIsWithdraw] = useState(false);
 
@@ -18,16 +17,6 @@ export default function Wallet() {
     } else if (action == "Withdraw") {
       setIsWithdraw(true);
       setIsStake(false);
-    }
-  };
-
-  const connectWallet = async () => {
-    if (window.starknet) {
-      const starknet = window.starknet;
-      await starknet.enable();
-      updateWallet(starknet.account)
-    } else {
-      alert('Please install a Starknet wallet like Argent X');
     }
   };
 
@@ -57,17 +46,6 @@ export default function Wallet() {
         <Row className={styles.wallet}>
           {isStake && <StakeForm />} {isWithdraw && <WithdrawForm />}
         </Row>
-      </div>
-      <div className={styles['login-btn-wrapper']}>
-      { !wallet?.address &&
-        <Button
-          variant="primary"
-          className={styles['login-btn']}
-          onClick={() => connectWallet()}
-        >
-          Connect Wallet
-        </Button>
-      }
       </div>
     </div>
   );
