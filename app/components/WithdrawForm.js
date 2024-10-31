@@ -17,13 +17,13 @@ const WithdrawForm = ({}) => {
       setIsRequest(false);
     }
   };
-  const {wallet} = useStore();
+  const { wallet } = useStore();
 
-  const [walletAddress, setWalletAddress] = useState('')
+  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
-    setWalletAddress(wallet.address || '')
-  }, [wallet])
+    setWalletAddress(wallet.address || "");
+  }, [wallet]);
   return (
     <div className={styles["withdraw-form-container"]}>
       <Row>
@@ -52,7 +52,8 @@ const WithdrawForm = ({}) => {
         >
           <div>213.00 STRK</div>
           <div className={styles["wallet-info"]}>
-          {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`} <img src="/images/token-icon.svg" />
+            {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
+            <img src="/images/token-icon.svg" />
           </div>
         </Col>
         {isClaim && (
@@ -81,7 +82,7 @@ const WithdrawForm = ({}) => {
             <span>STRK</span>
           </div>
         </Col>
-        <Col md="12">
+        <Col md="12" className="p-0">
           <Button variant="primary" className={styles["withdraw-btn"]}>
             Withdraw Now
           </Button>
