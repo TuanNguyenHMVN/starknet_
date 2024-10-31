@@ -5,7 +5,10 @@ export default function Overview() {
     <div className={styles["overview-container"]}>
       <Row>
         <Col xs="12">
-          <h1>Your Staking Overview</h1>
+          <span className={styles["overview-title"]}>
+            Your Staking Overview
+          </span>
+          <br />
           <span className={styles["sub-title"]}>
             Track your staked assets, earned rewards, and manage your dstSTRK
             tokens—all in one place.
