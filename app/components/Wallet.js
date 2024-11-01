@@ -7,6 +7,7 @@ import StakeForm from "./StakeForm";
 import WithdrawForm from "./WithdrawForm";
 import useStore from "../store/useStore";
 export default function Wallet() {
+  const { getWithdrawBalance } = useStore();
   const [isStake, setIsStake] = useState(true);
   const [isWithdraw, setIsWithdraw] = useState(false);
 
@@ -17,6 +18,7 @@ export default function Wallet() {
     } else if (action == "Withdraw") {
       setIsWithdraw(true);
       setIsStake(false);
+      getWithdrawBalance();
     }
   };
 

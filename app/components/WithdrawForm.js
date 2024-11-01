@@ -5,6 +5,7 @@ import styles from "../styles/WithdrawForm.module.scss";
 import { Row, Col, Button } from "react-bootstrap";
 
 const WithdrawForm = ({}) => {
+  const { availableWithdrawBalance, getPendingWithdraws , pendingWithdraws, availableRequests } = useStore();
   const [isRequest, setIsRequest] = useState(true);
   const [isClaim, setIsClaim] = useState(false);
 
@@ -15,6 +16,7 @@ const WithdrawForm = ({}) => {
     } else if (action == "Claim") {
       setIsClaim(true);
       setIsRequest(false);
+      getPendingWithdraws();
     }
   };
   const { wallet } = useStore();
@@ -50,7 +52,7 @@ const WithdrawForm = ({}) => {
           md="12"
           className={`${styles["available-funds"]} d-flex align-items-center justify-content-between`}
         >
-          <div>213.00 STRK</div>
+          <div>{availableWithdrawBalance} STRK</div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
             <img src="/images/token-icon.svg" />
@@ -58,12 +60,12 @@ const WithdrawForm = ({}) => {
         </Col>
         {isClaim && (
           <Col md="12" className={styles["count-request"]}>
-            <i className="bi bi-check-circle"></i> 2 <span>Ready To Claim</span>{" "}
+            <i className="bi bi-check-circle"></i> {availableRequests} <span>Ready To Claim</span>{" "}
             |{" "}
             <i
               className={`${styles["pending-icon"]} bi bi-clock clock-icon `}
             ></i>{" "}
-            5 <span>Pending</span>
+            {pendingWithdraws} <span>Pending</span>
           </Col>
         )}
         <Col md="12" className={styles.label}>
