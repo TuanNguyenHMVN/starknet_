@@ -32,7 +32,9 @@ const Header = () => {
         className={`container d-flex align-items-center justify-content-between ${styles["header-wrapper"]}`}
       >
         <div>
-          <span className={styles["header-name"]}>stakestark_</span>
+          <span className={styles["header-name"]}>
+            <img src="/images/header_logo.svg"/>
+          </span>
         </div>
         <div className={styles["links-and-wallets"]}>
           <div className={styles["menu-link"]}>

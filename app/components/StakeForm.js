@@ -17,6 +17,7 @@ const StakeForm = ({}) => {
       const starknet = window.starknet;
       await starknet.enable();
       updateWallet(starknet.account);
+      
     } else {
       alert("Please install a Starknet wallet like Argent X");
     }

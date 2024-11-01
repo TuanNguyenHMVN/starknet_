@@ -17,10 +17,7 @@ export default function RootLayout({ children }) {
       <body>
         <div className={styles["starknet-app"]}>
           {pathname != "/home" && <Header />}
-          <div
-            className={`${
-              pathname != "/home" ? "app-container" : ""
-            } container`}
+          <div className="app-container container"
           >
             <main>{children}</main>
           </div>
