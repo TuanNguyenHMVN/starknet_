@@ -24,8 +24,7 @@
       img {
         width: 32px;
         height: 32px;
-        margin-bottom: 10px;
-        margin-left: 20px;
+        margin-left: 10px;
       }
     }
     .staking-number {
@@ -58,5 +57,17 @@
       margin-top: 70px;
       margin-bottom: 70px;
     }
+  }
+}
+
+@media screen and (min-width: 430px) and (max-width: 767px) {
+  .title-wrapper {
+    padding: 0 75px;
+  }
+}
+
+@media screen and (min-width: 350px) and (max-width: 442px) {
+  .staking-label {
+    font-size: 15px !important;
   }
 }

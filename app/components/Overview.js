@@ -6,9 +6,11 @@ export default function Overview() {
       <div className={styles['overview-wrapper']}>
       <Row>
         <Col xs="12">
-          <span className={styles["overview-title"]}>
-            Your Staking Overview
-          </span>
+          <div className={styles['title-wrapper']}>
+            <span className={styles["overview-title"]}>
+              Your Staking Overview
+            </span>
+          </div>
           <br />
           <span className={styles["sub-title"]}>
             Track your staked assets, earned rewards, and manage your dstSTRK

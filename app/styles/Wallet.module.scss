@@ -90,6 +90,7 @@
       padding: 16px 24px;
       border: none;
       width: 120px;
+      height: 52px;
     }
   }
   @media screen and (max-width: 768px) {
@@ -105,6 +106,9 @@
       margin-bottom: 20px;
       .stake-withdraw-btn {
         margin-bottom: 0;
+      }
+      .btn-primary {
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
       }
     }
   }

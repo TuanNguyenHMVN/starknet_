@@ -6,6 +6,7 @@ import animations from "../styles/Animation.module.scss";
 import StakeForm from "./StakeForm";
 import WithdrawForm from "./WithdrawForm";
 import useStore from "../store/useStore";
+
 export default function Wallet() {
   const { getWithdrawBalance } = useStore();
   const [isStake, setIsStake] = useState(true);
