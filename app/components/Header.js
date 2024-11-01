@@ -8,7 +8,7 @@ import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
 const Header = () => {
   const pathname = usePathname();
-  const { wallet, updateWallet } = useStore();
+  const { wallet, updateWallet, availableAmount } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
 
@@ -59,7 +59,7 @@ const Header = () => {
           </div>
           {walletAddress && (
             <div className={styles["account-info"]}>
-              <span>213 STRK</span> |{" "}
+              <span>{availableAmount} STRK</span> |{" "}
               <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
                 -3
               )}`}</span>{" "}

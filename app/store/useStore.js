@@ -15,7 +15,10 @@ const useStore = create((set) => ({
   setContract: async (newContract) => {
     set({ contract: newContract })
   },
- 
+
+  availableAmount: 0,
+  setAvailableAmount: (amount) => set({ availableAmount: amount }),
+
   availableWithdrawBalance: 0,
   setAvailableWithdrawBalance: (newBalance) => set({ availableWithdrawBalance: newBalance }),
   

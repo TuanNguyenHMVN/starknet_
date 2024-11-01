@@ -4,7 +4,7 @@ import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 
 const StakeForm = ({}) => {
-  const { wallet, updateWallet } = useStore();
+  const { wallet, updateWallet, availableAmount } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
 
@@ -33,7 +33,7 @@ const StakeForm = ({}) => {
           md="12"
           className={`${styles["available-to-stake-input"]} d-flex align-items-center justify-content-between`}
         >
-          <div>213.00 STRK</div>
+          <div>{availableAmount} STRK</div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
             <img src="/images/token-icon.svg" />
