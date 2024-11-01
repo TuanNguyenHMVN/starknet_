@@ -12,12 +12,6 @@
     .dropdown-menu {
       display: none;
     }
-    .header-name {
-      font-family: "Fredoka", sans-serif;
-      font-weight: 100;
-      font-size: 32px;
-      padding-left: 32px;
-    }
     .menu-link,
     .menu-dropdown-icon {
       a {
@@ -37,7 +31,8 @@
       display: flex;
       gap: 10px;
       align-items: center;
-      padding: 0 30px;
+      width: 534px;
+      justify-content: space-evenly;
       .wallet-address {
         min-width: 200px;
         display: flex;
@@ -62,6 +57,9 @@
     border: 1px solid #0f0b46;
     padding: 3px 15px;
     border-radius: 20px;
+    height: 35px;
+    display: flex;
+    align-items: center;
     span {
       padding: 0 10px;
     }

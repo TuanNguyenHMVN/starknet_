@@ -13,6 +13,23 @@
     // width: 70%;
     line-height: 81.6px;
   }
+  .logo-image-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    .blur-background {
+      position: absolute;
+      top: 0;
+      right: 15%;
+      width: 125px;
+      height: 125px;
+      background-color: rgba(114, 183, 239, 0.5);
+      filter: blur(50px);
+      z-index: 0;
+      border-radius: 50%;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -24,6 +41,19 @@
       text-align: center;
       line-height: 52.08px;
     }
+    .logo-image-wrapper {
+      .blur-background {
+        position: absolute;
+        top: 0;
+        right: 75px;
+        width: 125px;
+        height: 125px;
+        background-color: rgba(114, 183, 239, 0.5);
+        filter: blur(50px);
+        z-index: 0;
+        border-radius: 50%;
+      }
+    }
   }
 }
 
@@ -33,6 +63,22 @@
     .logo-title {
       font-size: 68px;
       line-height: 81.6px;
+    }
+    .logo-image-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      .blur-background {
+        position: absolute;
+        top: 0;
+        right: 20%;
+        width: 125px;
+        height: 125px;
+        background-color: rgba(114, 183, 239, 0.5);
+        filter: blur(50px);
+        z-index: 0;
+        border-radius: 50%;
+      }
     }
   }
 }

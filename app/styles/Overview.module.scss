@@ -17,7 +17,7 @@
     flex: 1 1 calc(50% - 10px);
     text-align: left;
     .staking-label {
-      font-size: 16px;
+      font-size: 20px;
       line-height: 40px;
       color: #57547e;
       margin-top: 10px;
@@ -29,7 +29,7 @@
       }
     }
     .staking-number {
-      font-size: 28px;
+      font-size: 40px;
       line-height: 33.6px;
     }
   }
@@ -40,6 +40,7 @@
   .sub-title {
     font-size: 18px;
     line-height: 27px;
+    color: #57547E
   }
 }
 @media screen and (max-width: 992px) {

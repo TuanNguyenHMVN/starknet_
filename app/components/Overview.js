@@ -29,7 +29,7 @@ export default function Overview() {
         </Col>
         <Col xs="12" md="6" className={styles["staking-info"]}>
           <div className={styles["staking-number"]}>123,334</div>
-          <div className={styles["staking-label"]}>dstSTRK balance</div>
+          <div className={styles["staking-label"]}>stSTRK balance</div>
         </Col>
         <Col xs="12" md="6" className={styles["staking-info"]}>
           <div className={styles["staking-number"]}>123,334</div>

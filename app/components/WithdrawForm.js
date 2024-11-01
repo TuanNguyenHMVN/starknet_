@@ -87,7 +87,7 @@ const WithdrawForm = ({}) => {
             Withdraw Now
           </Button>
         </Col>
-        <Col md="12" className={`${styles.description} font-12`}>
+        <Col md="12" className={`${styles.description} font-14 height-63`}>
           *Please note that unstaking might take some time due to network
           conditions. Your staking rewards will stop accruing once the unstaking
           process begins.

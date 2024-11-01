@@ -65,7 +65,7 @@ const StakeForm = ({}) => {
           <div>---</div>
           <div>
             <img src="/images/starknet-icon.svg" />
-            <span>dstSTRK</span>
+            <span>stSTRK</span>
           </div>
         </Col>
         <Col md="12" className="p-0">

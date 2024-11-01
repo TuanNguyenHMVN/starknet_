@@ -63,7 +63,6 @@ const Header = () => {
               <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
                 -3
               )}`}</span>{" "}
-              <img src="/images/token-icon.svg" />
             </div>
           )}
           {!walletAddress && (

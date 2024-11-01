@@ -7,8 +7,11 @@ export default function Logo() {
       <Col xs="12" className={`${styles["logo-title"]}`}>
         <span>Manage Your Staking Effortlessly</span>
       </Col>
-      <Col xs="12" className="text-center">
+      <Col xs="12" className={styles['logo-image-wrapper']}>
         <img src="/images/logo.png" alt="" />
+        <div className={styles['blur-background']}>
+    
+        </div>
       </Col>
     </Row>
   );
