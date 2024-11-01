@@ -13,7 +13,7 @@ export default function StakingPage() {
         <Col md="6">
           <Wallet />
         </Col>
-        <Col md={{ span: 6, offset: 3 }} className="text-center">
+        <Col md="12" className="text-center">
           <Overview />
         </Col>
       </Row>

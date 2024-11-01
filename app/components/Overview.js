@@ -2,7 +2,8 @@ import { Row, Col } from "react-bootstrap";
 import styles from "../styles/Overview.module.scss";
 export default function Overview() {
   return (
-    <div className={styles["overview-container"]}>
+    <div className={`${styles["overview-container"]} d-flex justify-content-center`}>
+      <div className={styles['overview-wrapper']}>
       <Row>
         <Col xs="12">
           <span className={styles["overview-title"]}>
@@ -35,6 +36,7 @@ export default function Overview() {
           <div className={styles["staking-label"]}>Unstakeable amount</div>
         </Col>
       </Row>
+      </div>
     </div>
   );
 }

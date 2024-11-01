@@ -1,6 +1,9 @@
 .stake-form-container {
   .label {
     padding: 0;
+    font-size: 16px;
+    line-height: 20.83px;
+    margin-bottom: 5px;
   }
   .available-to-stake-input {
     background: #ededf6;
@@ -13,6 +16,8 @@
       border-radius: 20px;
       img {
         margin-top: -5px;
+        width: 23px;
+        height: 23px;
       }
     }
   }
@@ -29,7 +34,8 @@
       border-radius: 20px;
     }
     img {
-      height: 25px;
+      height: 32px;
+      width: 32px;
       margin-left: 10px;
       margin-right: 5px;
     }

@@ -95,7 +95,7 @@ const StakeForm = ({}) => {
             </div>
           )}
         </Col>
-        <Col md="12" className={`${styles.description} font-12`}>
+        <Col md="12" className={`${styles.description} font-14`}>
           *By staking, you agree to lock your tokens for a specified period. You
           will earn rewards during this time, and your dstSTRK tokens will
           represent your staked assets.

@@ -30,17 +30,7 @@ const Footer = () => {
         </Col>
         <Col md="6">
           <div className={`${styles["footer-site-name"]} text-center`}>
-            <span className={`${styles["site-name"]} font-64`}>
-              stakestark_
-            </span>
-            <br />
-            <span className={`${styles.subtitle} font-14`}>
-              starknet's to-go
-            </span>
-            <br />
-            <span className={`${styles["highlight-text"]} font-14`}>
-              liquid staking protocol
-            </span>
+            <img src='/images/footer-image.svg' />
           </div>
         </Col>
         <Col
@@ -66,12 +56,15 @@ const Footer = () => {
           className="d-flex align-items-center justify-content-center"
         >
           <div className={`${styles["footer-social"]} text-center`}>
-            <i
+            <img src="/images/telegram-icon.svg"/>
+            <img src="/images/ri_telegram-fill.svg"/>
+            
+            {/* <i
               className={`${styles["social-icon"]} m-3 bi bi-telegram telegram-icon cursor-pointer font-24`}
             ></i>
             <i
               className={`${styles["social-icon"]} bi bi-twitter-x font-24 cursor-pointer`}
-            ></i>
+            ></i> */}
           </div>
         </Col>
       </Row>

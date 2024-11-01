@@ -4,7 +4,8 @@
     padding: 0 15px;
     text-decoration: none;
     color: #0f0b46;
-    line-height: 12px;
+    line-height: 20.83px;
+    font-size: 16px;
   }
   .home-link,
   .staking-link {
@@ -30,21 +31,35 @@
 }
 .authorship {
   border-top: 1px solid #ccc;
-  margin-top: 15px;
-  padding: 15px 0px;
+  padding: 20px 0px;
+  font-size: 16px;
+  line-height: 19.2px;
 }
 .social-links {
   text-align: right;
 }
 .md-footer {
   .footer-site-name {
-    width: 50%;
+    width: 250px;
+    height: 65px;
+    margin-top: 70px;
+    margin-bottom: 30px;
   }
   .footer-social,
   .menu-links {
-    width: 25%;
+    width: 50%;
     text-align: center;
   }
+}
+.footer-social {
+  img {
+    margin: 10px 10px;
+  }
+}
+.footer-site-name {
+  height: 65px;
+  margin-top: 70px;
+  margin-bottom: 30px;
 }
 .sm-footer {
   .footer-links {
@@ -59,15 +74,18 @@
   .authorship,
   .subtitle,
   .highlight-text {
-    font-size: 12px !important;
+    font-size: 19.2px !important;
   }
 }
 @media screen and (max-width: 768px) {
   .md-footer {
     display: none !important;
   }
-  .social-icon {
-    font-size: 32px !important;
+  .footer-social {
+    img {
+      margin: 10px 10px;
+      margin-bottom: 50px;
+    }
   }
 }
 @media screen and (max-width: 575.98px) {

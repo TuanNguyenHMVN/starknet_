@@ -2,7 +2,7 @@
   .wallet {
     border: 1px solid #ccc;
     padding: 20px;
-    width: 70%;
+    background: #FAFAFF;
     .wallet-label {
       font-weight: 600;
       font-size: 14px;
@@ -52,7 +52,8 @@
       padding: 10px;
     }
     .description {
-      font-size: 12px;
+      font-size: 14px;
+      line-height: 21px;
     }
     .count-request {
       margin-bottom: 10px;
@@ -98,17 +99,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 30px;
+      margin-top: 70px;
+      margin-bottom: 20px;
       .stake-withdraw-btn {
         margin-bottom: 0;
       }
     }
   }
-  @media screen and (min-width: 768px) and (max-width: 992px) {
-    .wallet {
-      width: 100%;
-    }
-  }
+  // @media screen and (min-width: 768px) and (max-width: 992px) {
+  //   .wallet {
+  //     width: 100%;
+  //   }
+  // }
 }
 .login-btn {
   margin-top: 10px;
@@ -119,5 +121,10 @@
 @media screen and (max-width: 768px) {
   .login-btn-wrapper {
     text-align: center;
+  }
+  .wallet-wrapper { 
+    .wallet {
+      width: 100%;
+    }
   }
 }
