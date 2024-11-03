@@ -69,6 +69,43 @@
   .description {
     font-style: italic;
   }
+  .withdraw-input {
+    .prefix-sign {
+      border-radius: 0;
+      border: 1px solid #e4e4e4;
+      border-right: none;
+      height: 56px;
+      background-color: #FFF;
+      margin-bottom: 20px;
+      padding-right: 0;
+    }
+    input {
+      border: none;
+      height: 56px;
+      border-radius: 0;
+      margin-bottom: 20px;
+      border: 1px solid #e4e4e4;
+      border-left: none;
+      border-right: none;
+      padding-left: 3px;
+    }
+    input:focus {
+      box-shadow: none !important;
+    }
+    .combo-input-btn {
+      border: 1px solid #e4e4e4;
+      height: 56px;
+      margin-bottom: 20px;
+      background-color: #FFF;
+      padding-right: 8px;
+      .max-stake-btn {
+        background: #e4e4e4;
+        padding: 5px 15px;
+        border-radius: 25px;
+        margin: 0 10px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

@@ -12,7 +12,7 @@ const Footer = () => {
       <Row>
         <Col
           md="3"
-          className={`${styles["md-footer"]} d-flex align-items-center justify-content-center mb-4`}
+          className={`${styles["md-footer"]} d-flex align-items-center justify-content-center`}
         >
           <div
             className={`${styles["menu-links"]} ${styles["footer-links"]} text-center`}

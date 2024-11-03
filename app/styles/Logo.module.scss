@@ -87,12 +87,23 @@
   .logo-wrapper {
     width: 100%;
     .logo-title {
-      font-size: 32px;
+      font-size: 40px;
       width: 100%;
       line-height: 40px;
     }
   }
 }
+
+// @media screen and (min-width: 768px) and (max-width: 800px) {
+//   .logo-wrapper {
+//     width: 100%;
+//     .logo-title {
+//       font-size: 48px;
+//       width: 100%;
+//       line-height: 40px;
+//     }
+//   }
+// }
 
 @media screen and (max-width: 992px) {
   .logo-wrapper {

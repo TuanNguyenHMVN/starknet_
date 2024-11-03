@@ -7,10 +7,10 @@ export default function StakingPage() {
   return (
     <div className="container">
       <Row>
-        <Col md="6">
+        <Col md="6" className="app-logo-container">
           <Logo />
         </Col>
-        <Col md="6">
+        <Col md="6" className="app-wallet-container">
           <Wallet />
         </Col>
         <Col md="12" className="text-center">

@@ -53,3 +53,14 @@
     height: $i * 1% !important;
   }
 }
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+  .app-logo-container {
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 70px;
+  }
+  .app-wallet-container {
+    width: 100% !important;
+  }
+}

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import useStore from "../store/useStore";
 import styles from "../styles/WithdrawForm.module.scss";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, InputGroup, Form } from "react-bootstrap";
 
 const WithdrawForm = ({}) => {
   const { availableWithdrawBalance, getPendingWithdraws , pendingWithdraws, availableRequests } = useStore();
@@ -71,7 +71,24 @@ const WithdrawForm = ({}) => {
         <Col md="12" className={styles.label}>
           <b>Amount To Withdraw</b>
         </Col>
-        <Col
+        <Col md="12" className="p-0">
+          <InputGroup className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}>
+            <InputGroup.Text className={styles['prefix-sign']}>$</InputGroup.Text>
+            <Form.Control
+              type="text"
+              value="0"
+              className={styles["stake-input"]}
+            />
+            <div className={`${styles['combo-input-btn']} d-flex align-items-center justify-content-center`}>
+              <div className={`${styles["max-stake-btn"]} cursor-pointer`}>
+                <b>Max.</b>
+              </div>
+              <img src="/images/starknet-icon.svg" />
+              <span>STRK</span>
+            </div>
+          </InputGroup>
+        </Col>
+        {/* <Col
           md="12"
           className={`${styles["amount-to-withdraw"]} d-flex align-items-center justify-content-between`}
         >
@@ -83,7 +100,7 @@ const WithdrawForm = ({}) => {
             <img src="/images/starknet-icon.svg" />
             <span>STRK</span>
           </div>
-        </Col>
+        </Col> */}
         <Col md="12" className="p-0">
           <Button variant="primary" className={styles["withdraw-btn"]}>
             Withdraw Now
