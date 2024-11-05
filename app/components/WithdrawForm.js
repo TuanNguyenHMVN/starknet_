@@ -75,7 +75,7 @@ const WithdrawForm = ({}) => {
           <InputGroup className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}>
             <InputGroup.Text className={styles['prefix-sign']}>$</InputGroup.Text>
             <Form.Control
-              type="text"
+              type="number"
               value="0"
               className={styles["stake-input"]}
             />

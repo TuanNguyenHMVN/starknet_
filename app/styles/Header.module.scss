@@ -9,6 +9,11 @@
   display: flex;
   align-items: center;
   .header-wrapper {
+    .header-name {
+      img {
+        height: 45px;
+      }
+    }
     .dropdown-menu {
       display: none;
     }
@@ -81,7 +86,7 @@
       .menu-link,
       .menu-dropdown-icon {
         a {
-          padding: 0 15px;
+          padding: 0 10px;
         }
       }
     }

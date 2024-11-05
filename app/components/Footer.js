@@ -30,7 +30,7 @@ const Footer = () => {
         </Col>
         <Col md="6">
           <div className={`${styles["footer-site-name"]} text-center`}>
-            <img src='/images/footer-image.svg' />
+            <img src='/images/new-footer.svg' />
           </div>
         </Col>
         <Col
@@ -58,13 +58,6 @@ const Footer = () => {
           <div className={`${styles["footer-social"]} text-center`}>
             <img src="/images/telegram-icon.svg"/>
             <img src="/images/ri_telegram-fill.svg"/>
-            
-            {/* <i
-              className={`${styles["social-icon"]} m-3 bi bi-telegram telegram-icon cursor-pointer font-24`}
-            ></i>
-            <i
-              className={`${styles["social-icon"]} bi bi-twitter-x font-24 cursor-pointer`}
-            ></i> */}
           </div>
         </Col>
       </Row>

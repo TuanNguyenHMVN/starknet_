@@ -7,6 +7,7 @@ const StakeForm = ({}) => {
   const { wallet, updateWallet, availableAmount } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
+  const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     setWalletAddress(wallet.address || "");
@@ -46,14 +47,14 @@ const StakeForm = ({}) => {
           <InputGroup className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}>
             <InputGroup.Text className={styles['prefix-sign']}>$</InputGroup.Text>
             <Form.Control
-              type="text"
+              type="number"
               value="0"
               className={styles["stake-input"]}
             />
             <div className={`${styles['combo-input-btn']} d-flex align-items-center justify-content-center`}>
-              <div className={`${styles["max-stake-btn"]} cursor-pointer`}>
-                <b>Max.</b>
-              </div>
+              <Button className={`${styles["max-stake-btn"]} ${amount > 0 ? 'cursor-pointer' : ''}`} variant={amount > 0 ? "primary" : "secondary"}> 
+                  <b>Max.</b>
+              </Button>
               <img src="/images/starknet-icon.svg" />
               <span>STRK</span>
             </div>

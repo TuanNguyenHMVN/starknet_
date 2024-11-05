@@ -36,16 +36,29 @@ const useStore = create((set) => ({
     const STK_ABI = JSON.parse(process.env.NEXT_PUBLIC_ABI) // ABI json if available
 
     const provider = new Provider({ 
-      baseUrl: 'https://rpc.nethermind.io/sepolia-juno/?apikey=gwpDM5DZqPFX4LqdUZILAjqAnI7cSJwHlWTioEGZ8eUsKtOa',
+      baseUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
 
     const contract = new Contract(STK_ABI, STK_CONTRACT_ADDRESS, provider);
     try {
       useStore.getState().setContract(contract);
+      useStore.getState().getBalanceOfAccount();
+      use
     } catch (error) {
       console.error('Error fetching balance:', error);
     }
   },
+
+  getBalanceOfAccount: async () => { 
+    const walletAddress = useStore.getState().wallet.address;
+    const contract = await useStore.getState().contract;
+    if (contract) {
+      const balanceOfAccount = await contract.balance_of(walletAddress)
+      console.log("🚀 ~ getBalanceOfAccount: ~ balanceOfAccount:", balanceOfAccount)
+      // useStore.getState().setAvailableRequests(availableRequests)
+    }
+  },
+
   getWithdrawBalance: async () => {
     const walletAddress = useStore.getState().wallet.address;
     const contract = await useStore.getState().contract;
