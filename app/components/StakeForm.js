@@ -44,7 +44,6 @@ const StakeForm = ({}) => {
         </Col>
         <Col md="12" className="p-0">
           <InputGroup className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}>
-            <InputGroup.Text className={styles['prefix-sign']}>$</InputGroup.Text>
             <Form.Control
               type="number"
               value="0"

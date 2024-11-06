@@ -55,7 +55,6 @@ const WithdrawForm = ({}) => {
           <div>{availableWithdrawBalance} STRK</div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
-            <img src="/images/token-icon.svg" />
           </div>
         </Col>
         {isClaim && (
@@ -73,7 +72,6 @@ const WithdrawForm = ({}) => {
         </Col>
         <Col md="12" className="p-0">
           <InputGroup className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}>
-            <InputGroup.Text className={styles['prefix-sign']}>$</InputGroup.Text>
             <Form.Control
               type="number"
               value="0"

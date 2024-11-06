@@ -56,7 +56,7 @@
       height: 32px;
       width: 32px;
       margin-left: 10px;
-      margin-right: 5px;
+      margin-right: 10px;
     }
   }
   .withdraw-btn {
@@ -85,9 +85,8 @@
       border-radius: 0;
       margin-bottom: 20px;
       border: 1px solid #e4e4e4;
-      border-left: none;
       border-right: none;
-      padding-left: 3px;
+      padding-left: 9px;
     }
     input:focus {
       box-shadow: none !important;
@@ -103,6 +102,9 @@
         padding: 5px 15px;
         border-radius: 25px;
         margin: 0 10px;
+      }
+      img {
+        margin-right: 10px;
       }
     }
   }
