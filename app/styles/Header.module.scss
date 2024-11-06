@@ -19,16 +19,22 @@
     }
     .menu-link,
     .menu-dropdown-icon {
+      display: flex;
+      align-items: center;
       a {
         color: #0f0b46;
         text-decoration: none;
         padding: 0 15px;
+        display: flex;
+        align-items: center;
       }
       .active {
         color: #4087dd !important;
         &::before {
-          content: "• "; /* Adds a dot with a space */
-          // color: black;
+          content: "•";
+          margin-right: 15px;
+          transform: scale(2);
+          margin-bottom: 5px;
         }
       }
     }

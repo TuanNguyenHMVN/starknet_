@@ -64,7 +64,7 @@ const Footer = () => {
       <Row className={styles.authorship}>
         <Col className="text-center">
           <i className="bi bi-c-circle"></i>
-          <span>2024 StakeStark. All Rights reserved.</span>
+          <span>2024 Starkstake. All Rights reserved.</span>
         </Col>
       </Row>
     </Fragment>

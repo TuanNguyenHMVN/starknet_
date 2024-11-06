@@ -37,7 +37,6 @@ const StakeForm = ({}) => {
           <div>{availableAmount} STRK</div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
-            <img src="/images/token-icon.svg" />
           </div>
         </Col>
         <Col md="12" className={styles.label}>
@@ -90,14 +89,6 @@ const StakeForm = ({}) => {
               >
                 Connect Wallet
               </Button>
-              <img
-                className={styles["wallet-icon"]}
-                src="/images/helmet-icon.png"
-              />
-              <img
-                className={`${styles["wallet-icon"]} ${styles["argenx-icon"]}`}
-                src="/images/wallet-icon.png"
-              />
             </div>
           )}
         </Col>

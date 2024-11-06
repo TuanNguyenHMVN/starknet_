@@ -33,7 +33,7 @@ const Header = () => {
       >
         <div>
           <span className={styles["header-name"]}>
-            <img src="/images/new-header.svg"/>
+            <img src="/images/new-header.jpg"/>
           </span>
         </div>
         <div className={styles["links-and-wallets"]}>
