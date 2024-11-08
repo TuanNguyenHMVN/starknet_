@@ -7,6 +7,9 @@
 .btn {
   font-weight: bold;
   border: none !important;
+  &:focus-visible {
+    box-shadow: none !important;
+  }
 }
 
 .btn-primary {

@@ -2,7 +2,8 @@
 'use client'; // Required for Zustand stores in Next.js app directory
 
 import { create } from 'zustand';
-import { Provider, Contract } from 'starknet';
+import {formatAmount} from '../plugins/formatAmount'
+import { Provider, Contract, RpcProvider } from 'starknet';
 
 const useStore = create((set) => ({
   wallet: {},
@@ -17,71 +18,97 @@ const useStore = create((set) => ({
   },
 
   availableAmount: 0,
-  setAvailableAmount: (amount) => set({ availableAmount: amount }),
+  setAvailableAmount: (amount) => set({ availableAmount: formatAmount(amount) }),
 
   availableWithdrawBalance: 0,
   setAvailableWithdrawBalance: (newBalance) => set({ availableWithdrawBalance: newBalance }),
   
-  pendingWithdraws: 0,
-  setPendingWithdraws: (pending) => set({ pendingWithdraws: pending }),
+  estimatedRewards: 0,
+  setEstimatedRewards: (amount) => set({ estimatedRewards: amount }),
 
-  availableRequests: 0,
-  setAvailableRequests: (requests) => set({ availableRequests: requests }),
+  estimatedWithdrawal: 0,
+  setEstimatedWithdrawal: (amount) => set({ estimatedWithdrawal: amount }),
+  
+  allWithdrawalRequests: 0,
+  setAllWithdrawalRequests: (requests) => set({ allWithdrawalRequests: requests }),
+
+  availableWithdrawalRequests: 0,
+  setAvailableWithdrawalRequests: (requests) => set({ availableWithdrawalRequests: requests }),
   
   clearUser: () => set({ wallet: {} }),
   balances: {},
   loading: false,
-  fetchSTKBalance: async (address) => {
-    const STK_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_STAKE_STARK_CONTRACT; // Your STK contract address
-    const STK_ABI = JSON.parse(process.env.NEXT_PUBLIC_ABI) // ABI json if available
-
-    const provider = new Provider({ 
-      baseUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
-    });
-
-    const contract = new Contract(STK_ABI, STK_CONTRACT_ADDRESS, provider);
+  fetchSTKBalance: async () => {
     try {
-      useStore.getState().setContract(contract);
-      useStore.getState().getBalanceOfAccount();
-      use
+      const provider = new RpcProvider({ 
+        nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+      });
+      const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
+      const { abi } = await provider.getClassAt(address);
+      const contract = new Contract(abi, address, provider);
+      const balance = await contract.balance_of(useStore.getState().wallet.address)
+
+      useStore.getState().setAvailableAmount(balance);
+      useStore.getState().getWithdrawBalance();
+      useStore.getState().getWithdrawalRequests();
     } catch (error) {
       console.error('Error fetching balance:', error);
     }
   },
 
-  getBalanceOfAccount: async () => { 
-    const walletAddress = useStore.getState().wallet.address;
-    const contract = await useStore.getState().contract;
-    if (contract) {
-      const balanceOfAccount = await contract.balance_of(walletAddress)
-      console.log("🚀 ~ getBalanceOfAccount: ~ balanceOfAccount:", balanceOfAccount)
-      // useStore.getState().setAvailableRequests(availableRequests)
+  getWithdrawBalance: async () => {
+    const provider = new RpcProvider({ 
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    const withdrawableAmount = await contract.get_withdrawable_amount(useStore.getState().wallet.address)
+    useStore.getState().setAvailableWithdrawBalance(withdrawableAmount)
+  },
+
+  getEstimatedReward: async (amountOfToken, type) => {
+    const provider = new RpcProvider({ 
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_LST_CONTRACT_ADDRESS
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    if (type == 'withdraw') {
+      const rewards = await contract.convert_to_assets(amountOfToken)
+      useStore.getState().setEstimatedWithdrawal(rewards)
+    } else {
+      const rewards = await contract.convert_to_shares(amountOfToken)
+      useStore.getState().setEstimatedRewards(rewards)
     }
   },
 
-  getWithdrawBalance: async () => {
-    const walletAddress = useStore.getState().wallet.address;
-    const contract = await useStore.getState().contract;
-    if (contract) {
-      const availableWithdrawBalance = await contract.get_withdrawable_amount(walletAddress)
-      useStore.getState().setAvailableWithdrawBalance(availableWithdrawBalance)
-    }
+  getWithdrawalRequests: async () => {
+    const provider = new RpcProvider({ 
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    const allWithdrawalRequests = await contract.get_all_withdrawal_requests(useStore.getState().wallet.address);
+    const availableWithdrawalRequests = await contract.get_available_withdrawal_requests(useStore.getState().wallet.address);
+    useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests)
+    useStore.getState().setAvailableWithdrawalRequests(availableWithdrawalRequests)
   },
-  getPendingWithdraws: async () => {
-    const contract = await useStore.getState().contract;
-    if (contract) {
-      const pendingWithdraws = await contract.get_pending_withdrawals()
-      useStore.getState().setPendingWithdraws(pendingWithdraws)
-    }
-  },
-  getAvailableWithdrawRequests: async () => { 
-    const walletAddress = useStore.getState().wallet.address;
-    const contract = await useStore.getState().contract;
-    if (contract) {
-      const availableRequests = await contract.get_available_withdrawal_requests(walletAddress)
-      useStore.getState().setAvailableRequests(availableRequests)
-    }
+
+  requestWithdrawal: async (amount) => {
+    const provider = new RpcProvider({ 
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    const request = await contract.request_withdrawal(amount);
+    useStore.getState().getWithdrawalRequests();
+    useStore.getState().getWithdrawBalance();
   }
+
+
 }));
 
 export default useStore;

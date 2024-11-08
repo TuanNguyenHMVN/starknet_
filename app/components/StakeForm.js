@@ -2,12 +2,22 @@ import styles from "../styles/StakeForm.module.scss";
 import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
 
 const StakeForm = ({}) => {
-  const { wallet, updateWallet, availableAmount } = useStore();
+  const { wallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
   const [amount, setAmount] = useState(0);
+
+  const debouncedValue = useDebounce(amount, 100);
+
+
+  useEffect(() => {
+    if (debouncedValue) {
+      getEstimatedReward(amount)
+    }
+  }, [debouncedValue]);
 
   useEffect(() => {
     setWalletAddress(wallet.address || "");
@@ -23,6 +33,10 @@ const StakeForm = ({}) => {
       alert("Please install a Starknet wallet like Argent X");
     }
   };
+
+  const handleInput = (e) => {
+    setAmount(e.target.value)
+  }
 
   return (
     <div className={styles["stake-form-container"]}>
@@ -46,11 +60,13 @@ const StakeForm = ({}) => {
           <InputGroup className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}>
             <Form.Control
               type="number"
-              value="0"
+              value={amount}
+              max={availableAmount}
               className={styles["stake-input"]}
+              onChange={(e) => handleInput(e)}
             />
             <div className={`${styles['combo-input-btn']} d-flex align-items-center justify-content-center`}>
-              <Button className={`${styles["max-stake-btn"]} ${amount > 0 ? 'cursor-pointer' : ''}`} variant={amount > 0 ? "primary" : "secondary"}> 
+              <Button className={`${styles["max-stake-btn"]} ${amount > 0 ? 'cursor-pointer' : ''}`} variant={availableAmount > 0 ? "primary" : "secondary"} disabled={availableAmount == 0} onClick={() => setAmount(availableAmount)}> 
                   <b>Max.</b>
               </Button>
               <img src="/images/starknet-icon.svg" />
@@ -65,7 +81,7 @@ const StakeForm = ({}) => {
           md="12"
           className={`${styles["estimated-reward-input"]} d-flex align-items-center justify-content-between`}
         >
-          <div>---</div>
+          <div>{estimatedRewards}</div>
           <div>
             <img src="/images/starknet-icon.svg" />
             <span>stSTRK</span>
@@ -73,7 +89,7 @@ const StakeForm = ({}) => {
         </Col>
         <Col md="12" className="p-0">
           {wallet?.address && (
-            <Button variant="primary" className={styles["stake-btn"]}>
+            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0 || amount >   availableAmount}>
               Stake Now
             </Button>
           )}
