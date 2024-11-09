@@ -41,8 +41,12 @@ const useStore = create((set) => ({
   loading: false,
   fetchSTKBalance: async () => {
     try {
-      const provider = new RpcProvider({ 
-        nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+      // const provider = new RpcProvider({ 
+      //   nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+      // });
+      const nodeUrl = 'https://alpha4.starknet.io';
+      const provider = new Provider({
+        sequencer: { network: nodeUrl },
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
       const { abi } = await provider.getClassAt(address);
