@@ -32,7 +32,7 @@ const DropdownMenu = () => {
         <Dropdown.Menu>
           <Dropdown.Item>
             {walletAddress && <div className={styles['account-info']}>
-              {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`} <img src="/images/token-icon.svg" />
+              {`${walletAddress.slice(0,5)}...${walletAddress.slice(-3)}`}
             </div>}
             {!walletAddress && <Button
               variant="primary"

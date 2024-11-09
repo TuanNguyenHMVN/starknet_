@@ -48,8 +48,6 @@ const useStore = create((set) => ({
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
       const balance = await contract.balanceOf(useStore.getState().wallet.address)
-      console.log("🚀 ~ fetchSTKBalance: ~ wallet.address:", useStore.getState().wallet.address)
-      console.log("🚀 ~ fetchSTKBalance: ~ balance:", balance)
 
       useStore.getState().setAvailableAmount(balance);
       useStore.getState().getWithdrawBalance();
