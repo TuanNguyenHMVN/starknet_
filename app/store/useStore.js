@@ -41,14 +41,17 @@ const useStore = create((set) => ({
   loading: false,
   fetchSTKBalance: async () => {
     try {
-      const provider = new Provider({ 
+      const provider = new RpcProvider({ 
         nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
       const balance = await contract.balanceOf(useStore.getState().wallet.address)
-
+      if (balance === undefined) {
+        console.error('Received undefined balance');
+        return;
+      }
       useStore.getState().setAvailableAmount(balance);
       useStore.getState().getWithdrawBalance();
       useStore.getState().getWithdrawalRequests();
