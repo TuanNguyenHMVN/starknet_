@@ -6,10 +6,6 @@ import { Button } from "react-bootstrap";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
-import { connect, disconnect } from "starknetkit"
-
-
-
 const Header = () => {
   const pathname = usePathname();
   const { wallet, updateWallet, availableAmount } = useStore();
@@ -20,23 +16,14 @@ const Header = () => {
     setWalletAddress(wallet.address || "");
   }, [wallet]);
 
-
-
-
   const connectWallet = async () => {
-    const { wallet, connector, connectorData } = await connect()
-
-    if (wallet && connectorData) {
-      setConnection(wallet)
-      setAddress(connectorData.account)
+    if (window.starknet) {
+      const starknet = window.starknet;
+      await starknet.enable();
+      updateWallet(starknet.account);
+    } else {
+      alert("Please install a Starknet wallet like Argent X");
     }
-    // if (window.starknet) {
-    //   const starknet = window.starknet;
-    //   await starknet.enable();
-    //   updateWallet(starknet.account);
-    // } else {
-    //   alert("Please install a Starknet wallet like Argent X");
-    // }
   };
 
   return (
