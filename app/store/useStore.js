@@ -41,13 +41,13 @@ const useStore = create((set) => ({
   loading: false,
   fetchSTKBalance: async () => {
     try {
-      const provider = new RpcProvider({ 
+      const provider = new Provider({ 
         nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
-      const balance = await contract.balance_of(useStore.getState().wallet.address)
+      const balance = await contract.balanceOf(useStore.getState().wallet.address)
 
       useStore.getState().setAvailableAmount(balance);
       useStore.getState().getWithdrawBalance();
