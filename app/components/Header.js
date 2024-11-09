@@ -6,6 +6,10 @@ import { Button } from "react-bootstrap";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
+import { connect, disconnect } from "starknetkit"
+
+
+
 const Header = () => {
   const pathname = usePathname();
   const { wallet, updateWallet, availableAmount } = useStore();
@@ -16,14 +20,23 @@ const Header = () => {
     setWalletAddress(wallet.address || "");
   }, [wallet]);
 
+
+
+
   const connectWallet = async () => {
-    if (window.starknet) {
-      const starknet = window.starknet;
-      await starknet.enable();
-      updateWallet(starknet.account);
-    } else {
-      alert("Please install a Starknet wallet like Argent X");
+    const { wallet, connector, connectorData } = await connect()
+
+    if (wallet && connectorData) {
+      setConnection(wallet)
+      setAddress(connectorData.account)
     }
+    // if (window.starknet) {
+    //   const starknet = window.starknet;
+    //   await starknet.enable();
+    //   updateWallet(starknet.account);
+    // } else {
+    //   alert("Please install a Starknet wallet like Argent X");
+    // }
   };
 
   return (
@@ -59,7 +72,7 @@ const Header = () => {
           </div>
           {walletAddress && (
             <div className={styles["account-info"]}>
-              <span>{availableAmount} STRK</span> |{" "}
+              {/* <span>{availableAmount} STRK</span> |{" "} */}
               <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
                 -3
               )}`}</span>{" "}

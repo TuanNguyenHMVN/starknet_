@@ -4,6 +4,7 @@
 import { create } from 'zustand';
 import {formatAmount} from '../plugins/formatAmount'
 import { Provider, Contract, RpcProvider } from 'starknet';
+import { connect, disconnect } from "starknetkit"
 
 const useStore = create((set) => ({
   wallet: {},

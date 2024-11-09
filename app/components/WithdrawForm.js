@@ -79,12 +79,15 @@ const WithdrawForm = ({}) => {
         </Col>
         {isClaim && (
           <Col md="12" className={styles["count-request"]}>
-            <i className="bi bi-check-circle"></i> {availableWithdrawalRequests} <span>Ready To Claim</span>{" "}
+            <i className="bi bi-check-circle font-18"></i> 
+              <span className={styles['count-number']}>{availableWithdrawalRequests}</span>
+              <span>Ready To Claim</span>{" "}
             |{" "}
             <i
-              className={`${styles["pending-icon"]} bi bi-clock clock-icon `}
+              className={`${styles["pending-icon"]} bi bi-clock clock-icon font-18`}
             ></i>{" "}
-            {allWithdrawalRequests - availableWithdrawalRequests} <span>Pending</span>
+            <span className={styles['count-number']}>{allWithdrawalRequests - availableWithdrawalRequests}</span>
+            <span>Pending</span>
           </Col>
         )}
         <Col md="12" className={styles.label}>

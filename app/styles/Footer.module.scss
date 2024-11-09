@@ -1,7 +1,7 @@
 .footer-links {
   // margin-top: 30px;
   a {
-    padding: 0 15px;
+    padding: 0 30px;
     text-decoration: none;
     color: #0f0b46;
     line-height: 20.83px;
@@ -45,9 +45,13 @@
     margin-top: 45px;
     margin-bottom: 30px;
   }
-  .footer-social,
-  .menu-links {
+  .footer-social
+  {
     width: 50%;
+    text-align: center;
+  }
+  .menu-links  {
+    margin-left: 80px;
     text-align: center;
   }
 }

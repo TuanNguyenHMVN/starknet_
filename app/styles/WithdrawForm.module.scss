@@ -34,13 +34,21 @@
   }
   .count-request {
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
     span {
       font-size: 12px;
       color: #57547E;
-      padding-right: 18px;
+      padding-right: 18px; 
+      line-height: 16px;
     }
     .pending-icon {
       margin-left: 20px;
+    }
+    .count-number {
+      padding-right: 5px;
+      font-size: 18px !important;
+      padding-left: 5px;
     }
   }
   .amount-to-withdraw {
