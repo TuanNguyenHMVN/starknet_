@@ -105,8 +105,7 @@ const useStore = create((set) => ({
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
     const request = await contract.request_withdrawal(amount);
-    useStore.getState().getWithdrawalRequests();
-    useStore.getState().getWithdrawBalance();
+    useStore.getState().fetchSTKBalance();
   }
 
 
