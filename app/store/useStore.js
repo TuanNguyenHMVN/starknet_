@@ -51,6 +51,7 @@ const useStore = create((set) => ({
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
+      console.log("🚀 ~ fetchSTKBalance: ~ contract:", contract)
       const balance = await contract.balanceOf(useStore.getState().wallet.address)
       if (balance === undefined) {
         console.error('Received undefined balance');
