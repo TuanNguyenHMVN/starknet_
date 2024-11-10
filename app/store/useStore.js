@@ -48,13 +48,13 @@ const useStore = create((set) => ({
       const provider = new Provider({
         sequencer: { network: nodeUrl },
       });
-      const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
-      console.log("🚀 ~ fetchSTKBalance: ~ address:", address)
-      console.log("🚀 ~ fetchSTKBalance: ~ provider.getClassAt(address):", provider.getClassAt(address))
+      const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS;
+      console.log("🚀 ~ fetchSTKBalance: ~ address:", address);
+      console.log("🚀 ~ fetchSTKBalance: ~ provider.getClassAt(address):", provider.getClassAt(address));
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
-      console.log("🚀 ~ fetchSTKBalance: ~ contract:", contract)
-      const balance = await contract.balanceOf(useStore.getState().wallet.address)
+      console.log("🚀 ~ fetchSTKBalance: ~ contract:", contract);
+      const balance = await contract.balanceOf(useStore.getState().wallet.address);
       if (balance === undefined) {
         console.error('Received undefined balance');
         return;
