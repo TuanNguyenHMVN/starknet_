@@ -49,6 +49,8 @@ const useStore = create((set) => ({
         sequencer: { network: nodeUrl },
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS
+      console.log("🚀 ~ fetchSTKBalance: ~ address:", address)
+      console.log("🚀 ~ fetchSTKBalance: ~ provider.getClassAt(address):", provider.getClassAt(address))
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
       console.log("🚀 ~ fetchSTKBalance: ~ contract:", contract)
