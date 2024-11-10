@@ -6,11 +6,14 @@ import {formatAmount} from '../plugins/formatAmount'
 import { Provider, Contract, RpcProvider } from 'starknet';
 import { connect, disconnect } from "starknetkit"
 
+import { useAccount, useStarknetExecute } from '@starknet-react/core';
+
+
 const useStore = create((set) => ({
-  wallet: {},
+  userWallet: '',
   updateWallet: async (newWallet) => {
-    set({ wallet: newWallet })
-    await useStore.getState().fetchSTKBalance(newWallet.address);
+    set({ userWallet: newWallet })
+    await useStore.getState().fetchSTKBalance(newWallet);
   },
   
   contract: null,
@@ -49,9 +52,10 @@ const useStore = create((set) => ({
         sequencer: { network: nodeUrl },
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS;
+      console.log("🚀 ~ fetchSTKBalance: ~ address:", address)
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
-      const balance = await contract.balanceOf(useStore.getState().wallet.address);
+      const balance = await contract.balanceOf(useStore.getState().userWallet);
       if (balance === undefined) {
         console.error('Received undefined balance');
         return;
@@ -71,7 +75,7 @@ const useStore = create((set) => ({
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const withdrawableAmount = await contract.get_withdrawable_amount(useStore.getState().wallet.address)
+    const withdrawableAmount = await contract.get_withdrawable_amount(useStore.getState().userWallet)
     useStore.getState().setAvailableWithdrawBalance(withdrawableAmount)
   },
 
@@ -98,8 +102,8 @@ const useStore = create((set) => ({
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const allWithdrawalRequests = await contract.get_all_withdrawal_requests(useStore.getState().wallet.address);
-    const availableWithdrawalRequests = await contract.get_available_withdrawal_requests(useStore.getState().wallet.address);
+    const allWithdrawalRequests = await contract.get_all_withdrawal_requests(useStore.getState().userWallet);
+    const availableWithdrawalRequests = await contract.get_available_withdrawal_requests(useStore.getState().userWallet);
     useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests)
     useStore.getState().setAvailableWithdrawalRequests(availableWithdrawalRequests)
   },
@@ -113,6 +117,34 @@ const useStore = create((set) => ({
     const contract = new Contract(abi, address, provider);
     const request = await contract.request_withdrawal(amount);
     useStore.getState().fetchSTKBalance();
+  },
+
+  stakeToken: async (amount) => {
+    // const { account } = useAccount();  // Get connected account
+    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    const currentUser = useStore.getState().userWallet;
+    const { execute } = useStarknetExecute({
+      calls: [
+        {
+          contractAddress: address,  // Replace with your contract address
+          entrypoint: 'deposit',  // Replace with the entrypoint function name
+          calldata: [amount, address, currentUser],  // Replace with your calldata as an array of parameters
+        },
+      ],
+    });
+    const transaction = await execute(); 
+    console.log("🚀 ~ stakeToken: ~ transaction:", transaction)
+    // const provider = new RpcProvider({ 
+    //   nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    // });
+    // const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    // const { abi } = await provider.getClassAt(address);
+    // const contract = new Contract(abi, address, provider);
+    // const currentUser = useStore.getState().userWallet;
+    // const response = await contract.deposit(amount, address, currentUser);
+    // console.log("🚀 ~ stakeToken: ~ response:", response)
+    // // // const request = await contract.request_withdrawal(amount);
+    // useStore.getState().fetchSTKBalance();
   }
 
 

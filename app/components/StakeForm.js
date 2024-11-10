@@ -4,8 +4,13 @@ import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 
+import { connect, disconnect } from "starknetkit"
+import { WebWalletConnector } from "starknetkit/webwallet"
+import { InjectedConnector } from "starknetkit/injected"
+import { ArgentMobileBaseConnector } from "starknetkit-next/argentMobile"
+
 const StakeForm = ({}) => {
-  const { wallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards } = useStore();
+  const { userWallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards, stakeToken } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
   const [amount, setAmount] = useState(0);
@@ -20,22 +25,45 @@ const StakeForm = ({}) => {
   }, [debouncedValue]);
 
   useEffect(() => {
-    setWalletAddress(wallet.address || "");
-  }, [wallet]);
+    setWalletAddress(userWallet || "");
+  }, [userWallet]);
 
   const connectWallet = async () => {
-    if (window.starknet) {
-      const starknet = window.starknet;
-      await starknet.enable();
-      updateWallet(starknet.account);
-      
-    } else {
-      alert("Please install a Starknet wallet like Argent X");
-    }
+    const { wallet, connectorData } = await connect({
+      modalMode: "alwaysAsk",
+      connectors: [
+        new InjectedConnector({ options: { id: "argentX" } }),
+        new InjectedConnector({ options: { id: "braavos" } }),
+        new ArgentMobileBaseConnector({
+          dappName: "StarkStake",
+          url: window.location.hostname,
+          chainId: "SN_SEPOLIA",
+          icons: [],
+        }),
+        new WebWalletConnector(),
+      ],
+    })
+    updateWallet(connectorData.account);
   };
 
   const handleInput = (e) => {
     setAmount(e.target.value)
+  }
+
+  const onStake = async () => {
+    // const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    // const currentUser = userWallet.address;
+    // const { execute } = useStarknetExecute({
+    //   calls: [
+    //     {
+    //       contractAddress: address,  // Replace with your contract address
+    //       entrypoint: 'deposit',  // Replace with the entrypoint function name
+    //       calldata: [amount, address, currentUser],  // Replace with your calldata as an array of parameters
+    //     },
+    //   ],
+    // });
+    // const transaction = await execute(); 
+    // console.log("🚀 ~ onStake ~ transaction:", transaction)
   }
 
   return (
@@ -88,12 +116,12 @@ const StakeForm = ({}) => {
           </div>
         </Col>
         <Col md="12" className="p-0">
-          {wallet?.address && (
-            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0 || amount >   availableAmount}>
+          {userWallet?.address && (
+            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0 || amount >   availableAmount} onClick={() => onStake()}>
               Stake Now
             </Button>
           )}
-          {!wallet?.address && (
+          {!userWallet?.address && (
             <div
               className={`${styles["login-btn-wrappper"]} d-flex align-items-center`}
             >
@@ -109,7 +137,7 @@ const StakeForm = ({}) => {
         </Col>
         <Col md="12" className={`${styles.description} font-14`}>
           *By staking, you agree to lock your tokens for a specified period. You
-          will earn rewards during this time, and your dstSTRK tokens will
+          will earn rewards during this time, and your stSTRK tokens will
           represent your staked assets.
         </Col>
       </Row>

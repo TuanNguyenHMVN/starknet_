@@ -10,17 +10,21 @@
     "deploy": "gh-pages -d out"
   },
   "dependencies": {
+    "@starknet-react/chains": "^3.1.0",
+    "@starknet-react/core": "^3.5.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "next": "15.0.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.27.0",
     "sass": "^1.80.4",
     "starknet": "^6.11.0",
     "starknetkit": "^2.3.3",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.0",
+    "starknetkit-next": "npm:starknetkit@2.4.0"
   },
   "devDependencies": {
     "gh-pages": "^6.2.0"

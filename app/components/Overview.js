@@ -13,7 +13,7 @@ export default function Overview() {
           </div>
           <br />
           <span className={styles["sub-title"]}>
-            Track your staked assets, earned rewards, and manage your dstSTRK
+            Track your staked assets, earned rewards, and manage your stSTRK
             tokens—all in one place.
           </span>
         </Col>

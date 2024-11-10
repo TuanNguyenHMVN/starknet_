@@ -6,25 +6,42 @@ import { Button } from "react-bootstrap";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
+import { connect, disconnect } from "starknetkit"
+import { WebWalletConnector } from "starknetkit/webwallet"
+import { InjectedConnector } from "starknetkit/injected"
+import { ArgentMobileBaseConnector } from "starknetkit-next/argentMobile"
+
+
 const Header = () => {
   const pathname = usePathname();
-  const { wallet, updateWallet, availableAmount } = useStore();
+  const { userWallet, updateWallet, availableAmount } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
-    setWalletAddress(wallet.address || "");
-  }, [wallet]);
+    setWalletAddress(userWallet || "");
+  }, [userWallet]);
 
   const connectWallet = async () => {
-    if (window.starknet) {
-      const starknet = window.starknet;
-      await starknet.enable();
-      updateWallet(starknet.account);
-    } else {
-      alert("Please install a Starknet wallet like Argent X");
-    }
-  };
+    const { wallet, connectorData } = await connect({
+      modalMode: "alwaysAsk",
+      connectors: [
+        new InjectedConnector({ options: { id: "argentX" } }),
+        new InjectedConnector({ options: { id: "braavos" } }),
+        new ArgentMobileBaseConnector({
+          dappName: "StarkStake",
+          url: window.location.hostname,
+          chainId: "SN_SEPOLIA",
+          icons: [],
+        }),
+        new WebWalletConnector(),
+      ],
+    })
+    console.log("🚀 ~ connectWal ~ wallet:", wallet)
+    updateWallet(connectorData.account);
+  }
+
+
 
   return (
     <div className={styles["header-container"]}>

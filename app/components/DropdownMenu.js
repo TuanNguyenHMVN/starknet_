@@ -4,23 +4,36 @@ import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import styles from "../styles/DropdownMenu.module.scss";
 
+import { connect, disconnect } from "starknetkit"
+import { WebWalletConnector } from "starknetkit/webwallet"
+import { InjectedConnector } from "starknetkit/injected"
+import { ArgentMobileBaseConnector } from "starknetkit-next/argentMobile"
+
 const DropdownMenu = () => {
-  const {wallet, updateWallet} = useStore();
+  const {userWallet, updateWallet} = useStore();
 
   const [walletAddress, setWalletAddress] = useState('')
 
   useEffect(() => {
-    setWalletAddress(wallet.address || '')
-  }, [wallet])
+    setWalletAddress(userWallet || '')
+  }, [userWallet])
 
   const connectWallet = async () => {
-    if (window.starknet) {
-      const starknet = window.starknet;
-      await starknet.enable();
-      updateWallet(starknet.account)
-    } else {
-      alert('Please install a Starknet wallet like Argent X');
-    }
+    const { wallet, connectorData } = await connect({
+      modalMode: "alwaysAsk",
+      connectors: [
+        new InjectedConnector({ options: { id: "argentX" } }),
+        new InjectedConnector({ options: { id: "braavos" } }),
+        new ArgentMobileBaseConnector({
+          dappName: "StarkStake",
+          url: window.location.hostname,
+          chainId: "SN_SEPOLIA",
+          icons: [],
+        }),
+        new WebWalletConnector(),
+      ],
+    })
+    updateWallet(connectorData.account);
   };
   return (
     <div className={styles['menu-dropdown-icon']}>

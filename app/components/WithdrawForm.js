@@ -6,7 +6,7 @@ import { Row, Col, Button, InputGroup, Form } from "react-bootstrap";
 import { useDebounce } from "../hooks/useDebounce";
 
 const WithdrawForm = ({}) => {
-  const { wallet, availableWithdrawBalance, getPendingWithdraws , estimatedWithdrawal, getEstimatedReward, allWithdrawalRequests, availableWithdrawalRequests } = useStore();
+  const { userWallet, availableWithdrawBalance, getPendingWithdraws , estimatedWithdrawal, getEstimatedReward, allWithdrawalRequests, availableWithdrawalRequests } = useStore();
 
   const [isRequest, setIsRequest] = useState(true);
   const [isClaim, setIsClaim] = useState(false);
@@ -44,8 +44,8 @@ const WithdrawForm = ({}) => {
   }
 
   useEffect(() => {
-    setWalletAddress(wallet.address || "");
-  }, [wallet]);
+    setWalletAddress(userWallet || "");
+  }, [userWallet]);
   return (
     <div className={styles["withdraw-form-container"]}>
       <Row>
