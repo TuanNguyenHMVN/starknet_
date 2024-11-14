@@ -1,0 +1,30 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1931.57 462.75">
+  <defs>
+    <style>
+      /* Embed the font using @font-face */
+      @font-face {
+        font-family: 'Adolfine Bold';
+        src: url('../fonts/Adolfine/Adolfine Bold.woff') format('woff');
+        font-weight: 700;
+        font-style: normal;
+      }
+      .cls-1 {
+        font-size: 342.74px;
+        fill: #100857;
+        font-family: 'Adolfine Bold';
+      }
+      .cls-2, .cls-3 {
+        font-size: 68.84px;
+        font-family: 'Adolfine Bold';
+        font-weight: 700;
+      }
+      .cls-3 {
+        fill: #da80a4;
+      }
+    </style>
+  </defs>
+  <title>starkstake logo</title>
+  <text class="cls-1" transform="translate(3.05 294.21)">starkstake_</text>
+  <text class="cls-2" transform="translate(270.65 448.15)">starknet’s go to</text>
+  <text class="cls-3" transform="translate(829.29 448.15)">liquid staking protocol</text>
+</svg>

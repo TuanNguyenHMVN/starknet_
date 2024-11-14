@@ -44,7 +44,7 @@ const WithdrawForm = ({}) => {
   }
 
   useEffect(() => {
-    setWalletAddress(userWallet || "");
+    setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
   return (
     <div className={styles["withdraw-form-container"]}>
@@ -99,6 +99,7 @@ const WithdrawForm = ({}) => {
               type="number"
               value={amount}
               max={availableWithdrawBalance}
+              min={0}
               onChange={(e) => handleInput(e)}
               className={styles["stake-input"]}
             />

@@ -4,13 +4,11 @@ import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 
-import { connect, disconnect } from "starknetkit"
-import { WebWalletConnector } from "starknetkit/webwallet"
-import { InjectedConnector } from "starknetkit/injected"
-import { ArgentMobileBaseConnector } from "starknetkit-next/argentMobile"
+import { connect } from 'get-starknet'; // v4.0.0 min
+import { WalletAccount } from 'starknet';
 
 const StakeForm = ({}) => {
-  const { userWallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards, stakeToken } = useStore();
+  const { userWallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards, stakeToken, setWalletAccount } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
   const [amount, setAmount] = useState(0);
@@ -25,25 +23,14 @@ const StakeForm = ({}) => {
   }, [debouncedValue]);
 
   useEffect(() => {
-    setWalletAddress(userWallet || "");
+    setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
 
   const connectWallet = async () => {
-    const { wallet, connectorData } = await connect({
-      modalMode: "alwaysAsk",
-      connectors: [
-        new InjectedConnector({ options: { id: "argentX" } }),
-        new InjectedConnector({ options: { id: "braavos" } }),
-        new ArgentMobileBaseConnector({
-          dappName: "StarkStake",
-          url: window.location.hostname,
-          chainId: "SN_SEPOLIA",
-          icons: [],
-        }),
-        new WebWalletConnector(),
-      ],
-    })
-    updateWallet(connectorData.account);
+    const selectedWalletSWO = await connect({ modalMode: 'alwaysAsk', modalTheme: 'light' });
+    const myWalletAccount = new WalletAccount({ nodeUrl: process.env.NEXT_PUBLIC_STARKNET_NODE_URL }, selectedWalletSWO);
+    setWalletAccount({...myWalletAccount})
+    updateWallet(selectedWalletSWO);
   };
 
   const handleInput = (e) => {
@@ -51,19 +38,7 @@ const StakeForm = ({}) => {
   }
 
   const onStake = async () => {
-    // const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
-    // const currentUser = userWallet.address;
-    // const { execute } = useStarknetExecute({
-    //   calls: [
-    //     {
-    //       contractAddress: address,  // Replace with your contract address
-    //       entrypoint: 'deposit',  // Replace with the entrypoint function name
-    //       calldata: [amount, address, currentUser],  // Replace with your calldata as an array of parameters
-    //     },
-    //   ],
-    // });
-    // const transaction = await execute(); 
-    // console.log("🚀 ~ onStake ~ transaction:", transaction)
+    stakeToken(amount)
   }
 
   return (
@@ -90,6 +65,7 @@ const StakeForm = ({}) => {
               type="number"
               value={amount}
               max={availableAmount}
+              min={0}
               className={styles["stake-input"]}
               onChange={(e) => handleInput(e)}
             />
@@ -116,12 +92,12 @@ const StakeForm = ({}) => {
           </div>
         </Col>
         <Col md="12" className="p-0">
-          {userWallet?.address && (
+          {userWallet.selectedAddress && (
             <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0 || amount >   availableAmount} onClick={() => onStake()}>
               Stake Now
             </Button>
           )}
-          {!userWallet?.address && (
+          {!userWallet.selectedAddress && (
             <div
               className={`${styles["login-btn-wrappper"]} d-flex align-items-center`}
             >

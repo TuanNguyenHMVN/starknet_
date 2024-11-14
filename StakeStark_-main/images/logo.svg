@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1931.57 366.84">
+  <defs>
+    <style>
+      @font-face {
+        font-family: 'Adolfine Bold';
+        src: url('../fonts/Adolfine/Adolfine Bold.woff') format('woff');
+        font-weight: 700;
+      }
+      .logo_cls-1 {
+        font-size: 342.74px;
+        fill: #150956;
+        font-family:'Adolfine Bold';
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <text class="logo_cls-1" transform="translate(3.05 294.21)">starkstake_</text>
+</svg>

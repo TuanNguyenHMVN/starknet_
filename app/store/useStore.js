@@ -3,16 +3,21 @@
 
 import { create } from 'zustand';
 import {formatAmount} from '../plugins/formatAmount'
-import { Provider, Contract, RpcProvider } from 'starknet';
-import { connect, disconnect } from "starknetkit"
+import { Provider, Contract, RpcProvider, CallData, stark, Account, WalletAccount } from 'starknet';
 
-import { useAccount, useStarknetExecute } from '@starknet-react/core';
+import { InjectedConnector } from "@starknet-react/core";
+import React, { useState, useEffect } from "react";
 
 
 const useStore = create((set) => ({
-  userWallet: '',
+  userWallet: {},
+  walletAccount: null,
+
+  setWalletAccount: (newWalletAccount) => {
+    set({ walletAccount: newWalletAccount })
+  },
   updateWallet: async (newWallet) => {
-    set({ userWallet: newWallet })
+    set({ userWallet: newWallet || {} })
     await useStore.getState().fetchSTKBalance(newWallet);
   },
   
@@ -52,10 +57,10 @@ const useStore = create((set) => ({
         sequencer: { network: nodeUrl },
       });
       const address = process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS;
-      console.log("🚀 ~ fetchSTKBalance: ~ address:", address)
       const { abi } = await provider.getClassAt(address);
       const contract = new Contract(abi, address, provider);
-      const balance = await contract.balanceOf(useStore.getState().userWallet);
+      const balance = await contract.balanceOf(useStore.getState().userWallet.selectedAddress);
+      console.log("🚀 ~ fetchSTKBalance: ~ balance:", balance)
       if (balance === undefined) {
         console.error('Received undefined balance');
         return;
@@ -75,7 +80,11 @@ const useStore = create((set) => ({
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const withdrawableAmount = await contract.get_withdrawable_amount(useStore.getState().userWallet)
+    const withdrawableAmount = await contract.get_withdrawable_amount(
+      // useStore.getState().userWallet.selectedAddress
+      "0x024e267A819BCDCd4C1cB5b3c8E33c92C40923fF0e6d4494089138Cd386e8007"
+    )
+    console.log("🚀 ~ getWithdrawBalance: ~ withdrawableAmount:", withdrawableAmount)
     useStore.getState().setAvailableWithdrawBalance(withdrawableAmount)
   },
 
@@ -102,8 +111,8 @@ const useStore = create((set) => ({
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const allWithdrawalRequests = await contract.get_all_withdrawal_requests(useStore.getState().userWallet);
-    const availableWithdrawalRequests = await contract.get_available_withdrawal_requests(useStore.getState().userWallet);
+    const allWithdrawalRequests = await contract.get_all_withdrawal_requests(useStore.getState().userWallet.selectedAddress);
+    const availableWithdrawalRequests = await contract.get_available_withdrawal_requests(useStore.getState().userWallet.selectedAddress);
     useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests)
     useStore.getState().setAvailableWithdrawalRequests(availableWithdrawalRequests)
   },
@@ -120,34 +129,36 @@ const useStore = create((set) => ({
   },
 
   stakeToken: async (amount) => {
-    // const { account } = useAccount();  // Get connected account
-    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
-    const currentUser = useStore.getState().userWallet;
-    const { execute } = useStarknetExecute({
-      calls: [
-        {
-          contractAddress: address,  // Replace with your contract address
-          entrypoint: 'deposit',  // Replace with the entrypoint function name
-          calldata: [amount, address, currentUser],  // Replace with your calldata as an array of parameters
-        },
-      ],
+    const provider = new Provider({
+      rpc: { nodeUrl: "https://rpc.nethermind.io/sepolia-juno/?apikey=gwpDM5DZqPFX4LqdUZILAjqAnI7cSJwHlWTioEGZ8eUsKtOa" } // Testnet, adjust for mainnet if necessary
     });
-    const transaction = await execute(); 
-    console.log("🚀 ~ stakeToken: ~ transaction:", transaction)
-    // const provider = new RpcProvider({ 
-    //   nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
-    // });
-    // const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
-    // const { abi } = await provider.getClassAt(address);
-    // const contract = new Contract(abi, address, provider);
-    // const currentUser = useStore.getState().userWallet;
-    // const response = await contract.deposit(amount, address, currentUser);
-    // console.log("🚀 ~ stakeToken: ~ response:", response)
-    // // // const request = await contract.request_withdrawal(amount);
-    // useStore.getState().fetchSTKBalance();
+    const contractAddress = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    const { abi } = await provider.getClassAt(contractAddress);
+    const contractABI = abi;
+
+    const userWallet = useStore.getState().walletAccount
+
+    const accountInstance = new Account(provider, userWallet.walletProvider.selectedAddress, userWallet.signer);
+    const contract = new Contract(contractABI, contractAddress, provider);
+    console.log("🚀 ~ stakeToken: ~ contract:", contract)
+
+    const resp = contract.invoke("deposit", [amount, userWallet.walletProvider.selectedAddress, userWallet.walletProvider.selectedAddress]);
+    // console.log("🚀 ~ stakeToken: ~ resp:", resp)
+
+    //   const entrypoint = "deposit"; 
+    //   const calldata = [amount, userWallet.walletProvider.selectedAddress, userWallet.walletProvider.selectedAddress];
+    //   const data = CallData.compile({
+    //     amount,
+    //     receiver: "0x024e267A819BCDCd4C1cB5b3c8E33c92C40923fF0e6d4494089138Cd386e8007",
+    //     user: "0x024e267A819BCDCd4C1cB5b3c8E33c92C40923fF0e6d4494089138Cd386e8007",
+    // })
+    //   console.log("🚀 ~ stakeToken: ~ data:", data)
+    //   const txResponse = await accountInstance.execute({
+    //     to: contractAddress,
+    //     entrypoint: entrypoint,
+    //     calldata: data,
+    //   });
   }
-
-
 }));
 
 export default useStore;
