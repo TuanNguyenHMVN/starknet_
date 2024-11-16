@@ -65,9 +65,16 @@ const Header = () => {
               <a href="/faq">FAQs</a>
             </li>
             <li>
-              <button className="cta-button" onClick={() => window.location.pathname="/staking"}>
-                  Stake now
-              </button>
+              {!walletAddress && <button className="cta-button" onClick={() => connectWallet()}>
+              Connect Wallet
+              </button>}
+              {walletAddress && (
+                <div className="cta-wallet-info-button">
+                  <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
+                    -3
+                  )}`}</span>{" "}
+                </div>
+              )}
             </li>
           </ul>
           <div className="mobile-menu-icon">
