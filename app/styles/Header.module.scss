@@ -113,9 +113,8 @@
   }
 }
 
-// @media screen and (min-width: 768px) and (max-width: 992px) {
-//   .logo_cls-1 {
-//     font-size: 40px !important;
-//   }
-
-// }
+@media screen and (max-width: 576px) {
+  .logo_cls-1 {
+    font-size: 40px !important;
+  }
+}
