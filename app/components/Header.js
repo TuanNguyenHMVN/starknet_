@@ -83,57 +83,6 @@ const Header = () => {
         </div>
       </nav>
       </header>
-    // <div className={styles["header-container"]}>
-    //   <div
-    //     className={`container d-flex align-items-center justify-content-between ${styles["header-wrapper"]}`}
-    //   >
-    //     <div>
-    //       <span className={styles["header-name"]}>
-    //         <img src="/images/new-header.jpg"/>
-    //       </span>
-    //     </div>
-    //     <div className={styles["links-and-wallets"]}>
-    //       <div className={styles["menu-link"]}>
-    //         <a
-    //           className={`${pathname == "/home" ? styles.active : ""}`}
-    //           href="/"
-    //         >
-    //           Home
-    //         </a>
-    //         <a
-    //           className={`${pathname == "/staking" ? styles.active : ""}`}
-    //           href="/staking"
-    //         >
-    //           Staking
-    //         </a>
-    //         <a
-    //           className={`${pathname == "/faq" ? styles.active : ""}`}
-    //           href="/faq"
-    //         >
-    //           FAQs
-    //         </a>
-    //       </div>
-    //       {walletAddress && (
-    //         <div className={styles["account-info"]}>
-    //           {/* <span>{availableAmount} STRK</span> |{" "} */}
-    //           <span>{`${walletAddress.slice(0, 5)}...${walletAddress.slice(
-    //             -3
-    //           )}`}</span>{" "}
-    //         </div>
-    //       )}
-    //       {!walletAddress && (
-    //         <Button
-    //           variant="primary"
-    //           className={styles["login-btn"]}
-    //           onClick={() => connectWallet()}
-    //         >
-    //           Connect Wallet
-    //         </Button>
-    //       )}
-    //     </div>
-    //     <DropdownMenu className={styles["dropdown-menu"]} />
-    //   </div>
-    // </div>
   );
 };
 export default Header;

@@ -662,10 +662,10 @@ export default function EmbeddedPage() {
       </div>
       <div className="social-icons">
         <a href="#" aria-label="Telegram">
-          <img src="images/icon-telegram.svg" placeholder="telegram" />
+          <img src="/images/icon-telegram.svg" placeholder="telegram" />
         </a>
         <a href="#" aria-label="Twitter">
-          <img src="images/icon-twitter.svg" placeholder="telegram" />
+          <img src="/images/icon-twitter.svg" placeholder="telegram" />
         </a>
       </div>
     </div>
