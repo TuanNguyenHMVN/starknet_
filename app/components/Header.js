@@ -27,27 +27,12 @@ const Header = () => {
   }
 
   return (
-    <header className="header">
-      <nav className="navbar">
+    <header className={styles.header}>
+      <nav className={`${styles["header-wrapper"]} navbar`}>
         <div className="logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1931.57 366.84">
-            <defs>
-              <style
-                dangerouslySetInnerHTML={{
-                  __html:
-                    `.logo_cls-1 {
-                        font-size: 342.74px;
-                        fill: #150956;
-                        font-family:'Adolfine Bold';
-                        font-weight: 700;
-                      }`
-                }}
-              />
-            </defs>
-            <text className="logo_cls-1" transform="translate(3.05 294.21)">
-              starkstake_
-            </text>
-          </svg>
+          <text className={styles["logo_cls-1"]}>
+            starkstake_
+          </text>
         </div>
         <div className="menu-action">
           <ul className="nav-links">

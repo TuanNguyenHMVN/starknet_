@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-      <meta charset="UTF-8" />
+      <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>starkstake_</title>
     <meta property="og:title" content="starkstake_" />
@@ -33,12 +33,12 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <div className={styles["starknet-app"]}>
-          {pathname != "/home" && <Header />}
-          <div className={`${pathname != "/home" ? "app-container container" : ""} `}
-          >
-            <main>{children}</main>
-          </div>
-          {pathname != "/home" && <Footer />}
+          <Header />
+            <div className={`${pathname != "/home" ? "app-container container" : ""} `}
+            >
+              <main>{children}</main>
+            </div>
+          <Footer />
         </div>
       </body>
     </html>

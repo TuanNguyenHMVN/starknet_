@@ -93,7 +93,7 @@ const StakeForm = ({}) => {
         </Col>
         <Col md="12" className="p-0">
           {userWallet.selectedAddress && (
-            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0 || amount >   availableAmount} onClick={() => onStake()}>
+            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0} onClick={() => onStake()}>
               Stake Now
             </Button>
           )}

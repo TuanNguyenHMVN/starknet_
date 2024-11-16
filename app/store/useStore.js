@@ -129,9 +129,7 @@ const useStore = create((set) => ({
   },
 
   stakeToken: async (amount) => {
-    const provider = new Provider({
-      rpc: { nodeUrl: "https://rpc.nethermind.io/sepolia-juno/?apikey=gwpDM5DZqPFX4LqdUZILAjqAnI7cSJwHlWTioEGZ8eUsKtOa" } // Testnet, adjust for mainnet if necessary
-    });
+    const provider = new Provider({ baseUrl: "https://rpc.sepolia.starknet.io" });
     const contractAddress = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
     const { abi } = await provider.getClassAt(contractAddress);
     const contractABI = abi;
@@ -140,10 +138,6 @@ const useStore = create((set) => ({
 
     const accountInstance = new Account(provider, userWallet.walletProvider.selectedAddress, userWallet.signer);
     const contract = new Contract(contractABI, contractAddress, provider);
-    console.log("🚀 ~ stakeToken: ~ contract:", contract)
-
-    const resp = contract.invoke("deposit", [amount, userWallet.walletProvider.selectedAddress, userWallet.walletProvider.selectedAddress]);
-    // console.log("🚀 ~ stakeToken: ~ resp:", resp)
 
     //   const entrypoint = "deposit"; 
     //   const calldata = [amount, userWallet.walletProvider.selectedAddress, userWallet.walletProvider.selectedAddress];

@@ -218,7 +218,7 @@ export default function EmbeddedPage() {
 
   return (
     <>
-      <header className="header">
+      {/* <header className="header">
   <nav className="navbar">
     <div className="logo">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1931.57 366.84">
@@ -262,7 +262,7 @@ export default function EmbeddedPage() {
       </div>
     </div>
   </nav>
-      </header>
+      </header> */}
 <>
   <section id="home" className="hero-section">
     <div className="hero-left">
@@ -620,7 +620,7 @@ export default function EmbeddedPage() {
       </div>
     </div>
   </div>
-  <footer>
+  {/* <footer>
     <div className="footer-container">
       <div className="footer-nav">
         <span>Home</span>
@@ -676,8 +676,8 @@ export default function EmbeddedPage() {
       </div>
     </div>
     <div className="line" />
-  </footer>
-  <div className="copyright">© 2024 StakeStark. All Rights reserved.</div>
+  </footer> */}
+  {/* <div className="copyright">© 2024 StakeStark. All Rights reserved.</div> */}
 </>
 
 

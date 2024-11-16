@@ -2,10 +2,11 @@
 "use client"; // Top of the file for Next.js if you're using hooks or context
 
 import React, { Fragment } from "react";
+import styles from '../styles/Footer.module.scss';
 
 const Footer = () => {
   return (
-    <div>
+    <div className={styles["footer-wrapper"]}>
     <footer>
     <div className="footer-container">
       <div className="footer-nav">
