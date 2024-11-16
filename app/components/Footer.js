@@ -25,8 +25,18 @@ const Footer = () => {
           <defs>
             <style
               dangerouslySetInnerHTML={{
-                __html:
-                  "\n            /* Embed the font using @font-face */\n            @font-face {\n              font-family: 'Adolfine Bold';\n              src: url('../fonts/Adolfine/Adolfine Bold.woff') format('woff');\n              font-weight: 700;\n              font-style: normal;\n            }\n            .cls-1 {\n              font-size: 342.74px;\n              fill: #100857;\n              font-family: 'Adolfine Bold';\n            }\n            .cls-2, .cls-3 {\n              font-size: 68.84px;\n              font-family: 'Adolfine Bold';\n              font-weight: 700;\n            }\n            .cls-3 {\n              fill: #da80a4;\n            }\n          "
+                __html:`
+                  .cls-1 {
+                    font-size: 342.74px;
+                    fill: #100857;
+                    font-family: 'Adolfine Bold';
+                  }
+                  .cls-2, .cls-3 {
+                    font-size: 68.84px;
+                    font-family: 'Adolfine Bold';
+                    font-weight: 700;}
+                    .cls-3 {
+                      fill: #da80a4;}`
               }}
             />
           </defs>

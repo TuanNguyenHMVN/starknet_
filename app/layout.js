@@ -25,7 +25,6 @@ export default function RootLayout({ children }) {
 
 
     <link rel="icon" type="image/svg+xml" href="images/SN-Symbol-Flat colour.svg" />
-    <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>

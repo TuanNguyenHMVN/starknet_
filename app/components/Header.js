@@ -35,15 +35,11 @@ const Header = () => {
               <style
                 dangerouslySetInnerHTML={{
                   __html:
-                    `@font-face {font-family: 
-                      'Adolfine Bold
-                      src: url('../fonts/Adolfine/Adolfine Bold.woff') format('woff');
-                      font-weight: 700;}\n                
-                      .logo_cls-1 {\n                  
-                        font-size: 342.74px;\n                  
-                        fill: #150956;\n                  
-                        font-family:'Adolfine Bold';\n                  
-                        font-weight: 700;\n                
+                    `.logo_cls-1 {
+                        font-size: 342.74px;
+                        fill: #150956;
+                        font-family:'Adolfine Bold';
+                        font-weight: 700;
                       }`
                 }}
               />
