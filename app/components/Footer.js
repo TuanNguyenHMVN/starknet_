@@ -22,6 +22,7 @@ const Footer = () => {
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1931.57 462.75"
+          width="100%" height="auto"
         >
           <title>starkstake logo</title>
           <text className={styles["cls-1"]} transform="translate(300 300)">
