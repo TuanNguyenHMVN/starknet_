@@ -31,7 +31,7 @@ const Footer = () => {
           <text className={styles["cls-2"]} transform="translate(270.65 448.15)">
             starknet’s go to
           </text>
-          <text className={styles["cls-3"]} transform="translate(829.29 448.15)">
+          <text className={styles["cls-3"]} transform="translate(860.29 448.15)">
             liquid staking protocol
           </text>
         </svg>
