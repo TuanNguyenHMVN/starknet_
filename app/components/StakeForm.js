@@ -29,7 +29,8 @@ const StakeForm = ({}) => {
   const connectWallet = async () => {
     const selectedWalletSWO = await connect({ modalMode: 'alwaysAsk', modalTheme: 'light' });
     const myWalletAccount = new WalletAccount({ nodeUrl: process.env.NEXT_PUBLIC_STARKNET_NODE_URL }, selectedWalletSWO);
-    setWalletAccount({...myWalletAccount})
+    //need to hand over WalletAccount instance 
+    setWalletAccount(myWalletAccount);
     updateWallet(selectedWalletSWO);
   };
 

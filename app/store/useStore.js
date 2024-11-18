@@ -2,8 +2,8 @@
 'use client'; // Required for Zustand stores in Next.js app directory
 
 import { create } from 'zustand';
-import {formatAmount} from '../plugins/formatAmount'
-import { Provider, Contract, RpcProvider, CallData, stark, Account, WalletAccount } from 'starknet';
+import { formatAmount } from '../plugins/formatAmount'
+import { Provider, Contract, RpcProvider, CallData, stark, Account, WalletAccount, cairo, BigNumberish } from 'starknet';
 
 import { InjectedConnector } from "@starknet-react/core";
 import React, { useState, useEffect } from "react";
@@ -14,13 +14,17 @@ const useStore = create((set) => ({
   walletAccount: null,
 
   setWalletAccount: (newWalletAccount) => {
-    set({ walletAccount: newWalletAccount })
+    if (!(newWalletAccount instanceof WalletAccount)) {
+      // this must be WalletAccount instance
+      newWalletAccount = new WalletAccount(newWalletAccount);
+    }
+    set({ walletAccount: newWalletAccount });
   },
   updateWallet: async (newWallet) => {
     set({ userWallet: newWallet || {} })
     await useStore.getState().fetchSTKBalance(newWallet);
   },
-  
+
   contract: null,
   setContract: async (newContract) => {
     set({ contract: newContract })
@@ -31,19 +35,19 @@ const useStore = create((set) => ({
 
   availableWithdrawBalance: 0,
   setAvailableWithdrawBalance: (newBalance) => set({ availableWithdrawBalance: newBalance }),
-  
+
   estimatedRewards: 0,
   setEstimatedRewards: (amount) => set({ estimatedRewards: amount }),
 
   estimatedWithdrawal: 0,
   setEstimatedWithdrawal: (amount) => set({ estimatedWithdrawal: amount }),
-  
+
   allWithdrawalRequests: 0,
   setAllWithdrawalRequests: (requests) => set({ allWithdrawalRequests: requests }),
 
   availableWithdrawalRequests: 0,
   setAvailableWithdrawalRequests: (requests) => set({ availableWithdrawalRequests: requests }),
-  
+
   clearUser: () => set({ wallet: {} }),
   balances: {},
   loading: false,
@@ -74,7 +78,7 @@ const useStore = create((set) => ({
   },
 
   getWithdrawBalance: async () => {
-    const provider = new RpcProvider({ 
+    const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
@@ -89,7 +93,7 @@ const useStore = create((set) => ({
   },
 
   getEstimatedReward: async (amountOfToken, type) => {
-    const provider = new RpcProvider({ 
+    const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
     const address = process.env.NEXT_PUBLIC_LST_CONTRACT_ADDRESS
@@ -105,7 +109,7 @@ const useStore = create((set) => ({
   },
 
   getWithdrawalRequests: async () => {
-    const provider = new RpcProvider({ 
+    const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS
@@ -118,7 +122,7 @@ const useStore = create((set) => ({
   },
 
   requestWithdrawal: async (amount) => {
-    const provider = new RpcProvider({ 
+    const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
     const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
@@ -139,19 +143,21 @@ const useStore = create((set) => ({
     const accountInstance = new Account(provider, userWallet.walletProvider.selectedAddress, userWallet.signer);
     const contract = new Contract(contractABI, contractAddress, provider);
 
-    //   const entrypoint = "deposit"; 
-    //   const calldata = [amount, userWallet.walletProvider.selectedAddress, userWallet.walletProvider.selectedAddress];
-    //   const data = CallData.compile({
-    //     amount,
-    //     receiver: "0x024e267A819BCDCd4C1cB5b3c8E33c92C40923fF0e6d4494089138Cd386e8007",
-    //     user: "0x024e267A819BCDCd4C1cB5b3c8E33c92C40923fF0e6d4494089138Cd386e8007",
-    // })
-    //   console.log("🚀 ~ stakeToken: ~ data:", data)
-    //   const txResponse = await accountInstance.execute({
-    //     to: contractAddress,
-    //     entrypoint: entrypoint,
-    //     calldata: data,
-    //   });
+    const entrypoint = "deposit";
+    console.log("🚀 ~ stakeToken: ~ calldata:", userWallet)
+    const data = CallData.compile({
+      amount: cairo.uint256(amount),
+      receiver: "0x00D23681f3DeAf6909E4c77694EB486371E5b5C9a0555190de8baaf8b6cF335F",
+      user: "0x00D23681f3DeAf6909E4c77694EB486371E5b5C9a0555190de8baaf8b6cF335F",
+    })
+    console.log("🚀 ~ stakeToken: ~ data:", data)
+    // I told you, we need to use wallet account .execute not others
+    // https://starknetjs.com/docs/guides/walletAccount#use-as-an-account
+    const txResponse = await userWallet.execute([{
+      contractAddress: contractAddress,
+      calldata: data,
+      entrypoint: entrypoint,
+    }]);
   }
 }));
 
