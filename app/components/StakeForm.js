@@ -1,45 +1,42 @@
+"use client";
 import styles from "../styles/StakeForm.module.scss";
 import { Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../hooks/useDebounce";
 
-import { connect } from 'get-starknet'; // v4.0.0 min
-import { WalletAccount } from 'starknet';
-
 const StakeForm = ({}) => {
-  const { userWallet, updateWallet, availableAmount, getEstimatedReward, estimatedRewards, stakeToken, setWalletAccount } = useStore();
+  const {
+    userWallet,
+    availableAmount,
+    getEstimatedReward,
+    estimatedRewards,
+    stakeToken,
+    connectWallet,
+    isProcessing,
+  } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
   const [amount, setAmount] = useState(0);
 
   const debouncedValue = useDebounce(amount, 100);
 
-
   useEffect(() => {
     if (debouncedValue) {
-      getEstimatedReward(amount)
+      getEstimatedReward(amount);
     }
   }, [debouncedValue]);
 
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
-
-  const connectWallet = async () => {
-    const selectedWalletSWO = await connect({ modalMode: 'alwaysAsk', modalTheme: 'light' });
-    const myWalletAccount = new WalletAccount({ nodeUrl: process.env.NEXT_PUBLIC_STARKNET_NODE_URL }, selectedWalletSWO);
-    setWalletAccount({...myWalletAccount})
-    updateWallet(selectedWalletSWO);
+  const handleInput = (e) => {
+    setAmount(e.target.value);
   };
 
-  const handleInput = (e) => {
-    setAmount(e.target.value)
-  }
-
   const onStake = async () => {
-    stakeToken(amount)
-  }
+    stakeToken(amount);
+  };
 
   return (
     <div className={styles["stake-form-container"]}>
@@ -60,7 +57,9 @@ const StakeForm = ({}) => {
           <b>Amount To Stake</b>
         </Col>
         <Col md="12" className="p-0">
-          <InputGroup className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}>
+          <InputGroup
+            className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}
+          >
             <Form.Control
               type="number"
               value={amount}
@@ -69,9 +68,18 @@ const StakeForm = ({}) => {
               className={styles["stake-input"]}
               onChange={(e) => handleInput(e)}
             />
-            <div className={`${styles['combo-input-btn']} d-flex align-items-center justify-content-center`}>
-              <Button className={`${styles["max-stake-btn"]} ${amount > 0 ? 'cursor-pointer' : ''}`} variant={availableAmount > 0 ? "primary" : "secondary"} disabled={availableAmount == 0} onClick={() => setAmount(availableAmount)}> 
-                  <b>Max.</b>
+            <div
+              className={`${styles["combo-input-btn"]} d-flex align-items-center justify-content-center`}
+            >
+              <Button
+                className={`${styles["max-stake-btn"]} ${
+                  amount > 0 ? "cursor-pointer" : ""
+                }`}
+                variant={availableAmount > 0 ? "primary" : "secondary"}
+                disabled={availableAmount == 0}
+                onClick={() => setAmount(availableAmount)}
+              >
+                <b>Max.</b>
               </Button>
               <img src="/images/starknet-icon.svg" />
               <span>STRK</span>
@@ -93,7 +101,12 @@ const StakeForm = ({}) => {
         </Col>
         <Col md="12" className="p-0">
           {userWallet.selectedAddress && (
-            <Button variant="primary" className={styles["stake-btn"]} disabled={amount == 0} onClick={() => onStake()}>
+            <Button
+              variant="primary"
+              className={styles["stake-btn"]}
+              disabled={amount == 0 || isProcessing}
+              onClick={() => onStake()}
+            >
               Stake Now
             </Button>
           )}
