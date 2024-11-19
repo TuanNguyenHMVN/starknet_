@@ -6,7 +6,17 @@ import { Row, Col, Button, InputGroup, Form } from "react-bootstrap";
 import { useDebounce } from "../hooks/useDebounce";
 
 const WithdrawForm = ({}) => {
-  const { userWallet, availableWithdrawBalance, getPendingWithdraws , estimatedWithdrawal, getEstimatedReward, allWithdrawalRequests, availableWithdrawalRequests } = useStore();
+  const {
+    userWallet,
+    availableWithdrawBalance,
+    // getPendingWithdraws,
+    estimatedWithdrawal,
+    getEstimatedReward,
+    allWithdrawalRequests,
+    availableWithdrawalRequests,
+    withdraw,
+    isProcessing,
+  } = useStore();
 
   const [isRequest, setIsRequest] = useState(true);
   const [isClaim, setIsClaim] = useState(false);
@@ -16,10 +26,9 @@ const WithdrawForm = ({}) => {
 
   const debouncedValue = useDebounce(amount, 100);
 
-
   useEffect(() => {
     if (debouncedValue) {
-      getEstimatedReward(amount, 'withdraw')
+      getEstimatedReward(amount, "withdraw");
     }
   }, [debouncedValue]);
 
@@ -30,24 +39,30 @@ const WithdrawForm = ({}) => {
     } else if (action == "Claim") {
       setIsClaim(true);
       setIsRequest(false);
-      getPendingWithdraws();
+      // getPendingWithdraws();
     }
   };
 
   const onRequestWithdrawal = () => {
-    requestWithdrawal(amount.value)
-    setAmount(0)
-  }
+    requestWithdrawal(amount.value);
+    setAmount(0);
+  };
 
   const handleInput = (e) => {
-    setAmount(e.target.value)
-  }
+    setAmount(e.target.value);
+  };
 
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
   return (
-    <div className={styles["withdraw-form-container"]}>
+    <div
+      className={
+        isRequest
+          ? `${styles["withdraw-form-container"]}`
+          : `${styles["withdraw-form-container"]} ${styles["claim-form"]}`
+      }
+    >
       <Row>
         <Col md="12" className="p-0">
           <div className={`${styles["withdraw-combo-btn"]} mb-3`}>
@@ -72,62 +87,85 @@ const WithdrawForm = ({}) => {
           md="12"
           className={`${styles["available-funds"]} d-flex align-items-center justify-content-between`}
         >
-          <div>{availableWithdrawBalance} stSTRK</div>
+          <div>
+            {availableWithdrawBalance} {isRequest ? "stSTRK" : "STRK"}
+          </div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
           </div>
         </Col>
         {isClaim && (
           <Col md="12" className={styles["count-request"]}>
-            <i className="bi bi-check-circle font-18"></i> 
-              <span className={styles['count-number']}>{availableWithdrawalRequests}</span>
-              <span>Ready To Claim</span>{" "}
-            |{" "}
+            <i className="bi bi-check-circle font-18"></i>
+            <span className={styles["count-number"]}>
+              {availableWithdrawalRequests}
+            </span>
+            <span>Ready To Claim</span> |{" "}
             <i
               className={`${styles["pending-icon"]} bi bi-clock clock-icon font-18`}
             ></i>{" "}
-            <span className={styles['count-number']}>{allWithdrawalRequests - availableWithdrawalRequests}</span>
+            <span className={styles["count-number"]}>
+              {allWithdrawalRequests - availableWithdrawalRequests}
+            </span>
             <span>Pending</span>
           </Col>
         )}
-        <Col md="12" className={styles.label}>
-          <b>Amount To Withdraw</b>
-        </Col>
+        {isRequest && (
+          <>
+            <Col md="12" className={styles.label}>
+              <b>Amount To Withdraw</b>
+            </Col>
+            <Col md="12" className="p-0">
+              <InputGroup
+                className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}
+              >
+                <Form.Control
+                  type="number"
+                  value={amount}
+                  max={availableWithdrawBalance}
+                  min={0}
+                  onChange={(e) => handleInput(e)}
+                  className={styles["stake-input"]}
+                />
+                <div
+                  className={`${styles["combo-input-btn"]} d-flex align-items-center justify-content-center`}
+                >
+                  <Button
+                    className={`${styles["max-stake-btn"]} cursor-pointer`}
+                    disabled={availableWithdrawBalance == 0}
+                  >
+                    <b>Max.</b>
+                  </Button>
+                  <img src="/images/starknet-icon.svg" />
+                  <span>stSTRK</span>
+                </div>
+              </InputGroup>
+            </Col>
+            <Col md="12" className={styles.label}>
+              <b>Estimated Rewards</b>
+            </Col>
+            <Col
+              md="12"
+              className={`${styles["estimated-reward-input"]} d-flex align-items-center justify-content-between`}
+            >
+              <div>{estimatedWithdrawal}</div>
+              <div>
+                <img src="/images/starknet-icon.svg" />
+                <span>STRK</span>
+              </div>
+            </Col>
+          </>
+        )}
         <Col md="12" className="p-0">
-          <InputGroup className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}>
-            <Form.Control
-              type="number"
-              value={amount}
-              max={availableWithdrawBalance}
-              min={0}
-              onChange={(e) => handleInput(e)}
-              className={styles["stake-input"]}
-            />
-            <div className={`${styles['combo-input-btn']} d-flex align-items-center justify-content-center`}>
-              <Button className={`${styles["max-stake-btn"]} cursor-pointer`} disabled={availableWithdrawBalance == 0}>
-                <b>Max.</b>
-              </Button>
-              <img src="/images/starknet-icon.svg" />
-              <span>stSTRK</span>
-            </div>
-          </InputGroup>
-        </Col>
-        <Col md="12" className={styles.label}>
-          <b>Estimated Rewards</b>
-        </Col>
-        <Col
-          md="12"
-          className={`${styles["estimated-reward-input"]} d-flex align-items-center justify-content-between`}
-        >
-          <div>{estimatedWithdrawal}</div>
-          <div>
-            <img src="/images/starknet-icon.svg" />
-            <span>STRK</span>
-          </div>
-        </Col>
-        <Col md="12" className="p-0">
-          <Button variant="primary" className={styles["withdraw-btn"]} disabled={amount == 0 || amount > availableWithdrawBalance} onClick={() => onRequestWithdrawal()}>
-            Withdraw Now
+          <Button
+            variant="primary"
+            className={styles["withdraw-btn"]}
+            disabled={
+              amount == 0 || amount > availableWithdrawBalanc || isProcessing
+            }
+            onClick={() => (isRequest ? onRequestWithdrawal() : withdraw())}
+          >
+            {isRequest ? "Request" : "Withdraw Now"}
           </Button>
         </Col>
         <Col md="12" className={`${styles.description} font-14 height-63`}>
