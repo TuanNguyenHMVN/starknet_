@@ -46,13 +46,17 @@ export default function Wallet() {
             </div>
           </Col>
         </Row>
-        { isStake && <Row className={styles.wallet}>
-          <StakeForm />
-        </Row> }
+        {isStake && (
+          <Row className={styles.wallet}>
+            <StakeForm />
+          </Row>
+        )}
 
-        { isWithdraw && <Row className={`${styles.wallet} ${styles['withdraw-form']}`}>
-          <WithdrawForm />
-        </Row> }
+        {isWithdraw && (
+          <Row className={`${styles.wallet} ${styles["withdraw-form"]}`}>
+            <WithdrawForm />
+          </Row>
+        )}
         {/* <Row className={styles.wallet}>
           {isStake && <StakeForm />} {isWithdraw && <WithdrawForm />}
         </Row> */}

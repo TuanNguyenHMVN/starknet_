@@ -1,3 +1,4 @@
+"use client";
 import { Row, Col } from "react-bootstrap";
 import styles from "../styles/Logo.module.scss";
 import animations from "../styles/Animation.module.scss";
@@ -7,11 +8,9 @@ export default function Logo() {
       <Col xs="12" className={`${styles["logo-title"]}`}>
         <span>Manage Your Staking Effortlessly</span>
       </Col>
-      <Col xs="12" className={styles['logo-image-wrapper']}>
+      <Col xs="12" className={styles["logo-image-wrapper"]}>
         <img src="/images/logo.png" alt="" />
-        <div className={styles['blur-background']}>
-    
-        </div>
+        <div className={styles["blur-background"]}></div>
       </Col>
     </Row>
   );

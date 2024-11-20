@@ -1,16 +1,16 @@
-// components/WalletModal.js
-import React from 'react';
-import { useConnectors } from '@starknet-react/core';
-import Modal from 'react-modal';
+"use client";
+import React from "react";
+import { useConnectors } from "@starknet-react/core";
+import Modal from "react-modal";
 
-Modal.setAppElement('#__next');  // Ensures accessibility by linking to the Next.js root div
+Modal.setAppElement("#__next"); // Ensures accessibility by linking to the Next.js root div
 
 export default function WalletModal({ isOpen, onRequestClose }) {
   const { connectors, connect } = useConnectors();
 
   const handleConnect = (connector) => {
     connect(connector);
-    onRequestClose();  // Close modal after connecting
+    onRequestClose(); // Close modal after connecting
   };
 
   return (
