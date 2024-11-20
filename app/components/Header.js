@@ -36,15 +36,21 @@ const Header = () => {
         </div>
         <div className="menu-action">
           <ul className="nav-links">
-            <li>
-              <a href="/home">Home</a>
-            </li>
-            <li>
-              <a href="/staking">Staking</a>
-            </li>
-            <li>
-              <a href="/faq">FAQs</a>
-            </li>
+              <li>
+            <a href="/home" className={pathname === '/home' ? 'current-page' : ''}>
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/staking" className={pathname === '/staking' ? 'current-page' : ''}>
+              Staking
+            </a>
+          </li>
+          <li>
+            <a href="/faq" className={pathname === '/faq' ? 'current-page' : ''}>
+              FAQ
+            </a>
+          </li>
             <li>
               {!walletAddress && <button className="cta-button" onClick={() => connectWallet()}>
               Connect Wallet

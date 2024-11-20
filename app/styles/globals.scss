@@ -212,11 +212,11 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a.current-page {
   color: var(--highlight);
 }
 
-.nav-links a:hover::before {
+.nav-links a.current-page::before {
   background-color: var(--highlight);
 }
 

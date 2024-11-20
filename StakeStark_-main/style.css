@@ -20,7 +20,11 @@ body {
 
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 20px; /* Add some padding on the sides */
+    padding: 0 20px; 
+}
+
+.container {
+    max-width: 100%;
 }
 
 /* Header Section */
@@ -50,11 +54,13 @@ body {
     align-items: stretch; 
     position: relative;
     margin: 0 auto;
+
+    padding: 15px;
 }
 
 .logo, .menu-action {
     flex: 1;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 .logo {
@@ -121,7 +127,7 @@ body {
 
 .menu-action {
     display: flex;
-    align-items: center; /* Change this from center to flex-start */
+    align-items: center;
     justify-content: center;
     flex-direction: column;
 }
@@ -137,6 +143,8 @@ body {
     letter-spacing: -0.32px;
     text-transform: capitalize;
     margin-right: 20px;
+
+    margin-bottom: 0;
 }
 
 .nav-links li {
@@ -172,11 +180,11 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a.current-page {
     color: var(--highlight);
 }
 
-.nav-links a:hover::before {
+.nav-links a.current-page::before {
     background-color: var(--highlight);
 }
 
@@ -195,6 +203,9 @@ body {
     font-weight: 500;
     letter-spacing: -0.32px;
     text-transform: capitalize;
+
+    max-width: 163px;
+    max-height: 53px;
 }
 
 .mobile-menu-icon span {
@@ -237,7 +248,7 @@ body {
 
 .icon-stake {
     width: 506px;
-    height: 560px;
+    height: 524px;
 
     position: absolute;
     top: 10%;
@@ -247,13 +258,12 @@ body {
 
   .symbol-icon {
     position: absolute;
-    top: 62.5%;
+    top: 57.5%;
     right: 31.5%;
     z-index: 3;
 
     width: 158px;
     height: 158px;
-
   }
 
   @media screen and (max-width: 1700px) {
@@ -396,12 +406,6 @@ body {
     transform: translateY(0); 
 }
 
-/* .hero-image {
-    transition: transform 0.5s ease;
-    transform-style: preserve-3d;
-  } */
-
-
 .symbol {
     position: absolute;
     bottom: 9%;
@@ -512,16 +516,13 @@ body {
     font-weight: 400;
     line-height: 150%;
 
-    max-width: 600px; /* Adjust as needed */
-    margin: 0 auto; /* Center the paragraph if desired */
-    line-height: 1.5; /* Adjust for desired spacing between lines */
-    padding: 10px; /* Add some padding around the text */
+    max-width: 600px; 
+    margin: 0 auto; 
+    line-height: 1.5; 
+    padding: 10px; 
 }
 
 
-
-
-/* Responsive Design for Small Screens */
 @media (max-width: 1200px) {
     .hero-section {
         padding: 0 15px;
@@ -530,10 +531,6 @@ body {
     .hero-left {
         padding-right: 10px;
     }
-
-    /* .hero-right img {
-        max-width: 90%;
-    } */
 
     .symbol {
         right: 60px;
@@ -552,9 +549,6 @@ body {
         padding-right: 5px;
     }
 
-    /* .hero-right img {
-        max-width: 100%;
-    } */
     .symbol {
         right: 17%; 
         width: 19%; 
@@ -629,40 +623,6 @@ body {
       padding: 10px 20px;
     }
 
-/* 
-    .para1 {
-        color: var(--blue, #0F0B46);
-        font-family: "DM Sans";
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 110%;
-        text-transform: uppercase;
-    }
-
-    .para2 {
-        color: var(--blue, #0F0B46);
-        text-align: center;
-        font-family: "DM Sans";
-        font-size: 40px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 120%; 
-        letter-spacing: -0.8px;
-    }
-
-    .para3 {
-        color: var(--blue, #0F0B46);
-        text-align: center;
-        font-family: "DM Sans";
-        font-size: 68px;
-        font-style: normal;
-        font-weight: 300;
-        line-height: normal;
-        letter-spacing: -1.36px;
-    } */
-
-    
 
   }
 
