@@ -1,6 +1,7 @@
 "use client";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 
@@ -22,13 +23,13 @@ const Header = () => {
         <div className="menu-action">
           <ul className="nav-links">
             <li>
-              <a href="/home">Home</a>
+              <Link href="/home">Home</Link>
             </li>
             <li>
-              <a href="/staking">Staking</a>
+              <Link href="/staking">Staking</Link>
             </li>
             <li>
-              <a href="/faq">FAQs</a>
+              <Link href="/faq">FAQs</Link>
             </li>
             <li>
               {!walletAddress && (

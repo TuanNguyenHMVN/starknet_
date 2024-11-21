@@ -8,7 +8,7 @@ import WithdrawForm from "./WithdrawForm";
 import useStore from "../store/useStore";
 
 export default function Wallet() {
-  const { getWithdrawBalance } = useStore();
+  const { getWithdrawableBalance, fetchSTKBalance, userWallet } = useStore();
   const [isStake, setIsStake] = useState(true);
   const [isWithdraw, setIsWithdraw] = useState(false);
 
@@ -16,10 +16,11 @@ export default function Wallet() {
     if (action == "Stake") {
       setIsStake(true);
       setIsWithdraw(false);
+      fetchSTKBalance();
     } else if (action == "Withdraw") {
       setIsWithdraw(true);
       setIsStake(false);
-      getWithdrawBalance();
+      getWithdrawableBalance();
     }
   };
 
@@ -40,6 +41,7 @@ export default function Wallet() {
               <Button
                 variant={isWithdraw ? "primary" : "secondary"}
                 onClick={() => handleAction("Withdraw")}
+                disabled={!userWallet.selectedAddress}
               >
                 Withdraw
               </Button>
@@ -57,9 +59,6 @@ export default function Wallet() {
             <WithdrawForm />
           </Row>
         )}
-        {/* <Row className={styles.wallet}>
-          {isStake && <StakeForm />} {isWithdraw && <WithdrawForm />}
-        </Row> */}
       </div>
     </div>
   );

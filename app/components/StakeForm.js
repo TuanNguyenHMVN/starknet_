@@ -9,29 +9,35 @@ const StakeForm = ({}) => {
   const {
     userWallet,
     availableAmount,
-    getEstimatedReward,
-    estimatedRewards,
+    convertToShares,
+    stStrkRewards,
     stakeToken,
     connectWallet,
     isProcessing,
   } = useStore();
 
   const [walletAddress, setWalletAddress] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0");
 
-  const debouncedValue = useDebounce(amount, 100);
+  const debouncedValue = useDebounce(amount, 0);
 
   useEffect(() => {
-    if (debouncedValue) {
-      getEstimatedReward(amount);
-    }
+    convertToShares(amount);
   }, [debouncedValue]);
 
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
   const handleInput = (e) => {
-    setAmount(e.target.value);
+    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+    if (e.target.value) {
+      if (Number(e.target.value) > Number(availableAmount)) {
+        e.target.value = Number(availableAmount);
+      }
+      setAmount(Math.floor(e.target.value));
+    } else {
+      setAmount("0");
+    }
   };
 
   const onStake = async () => {
@@ -61,12 +67,11 @@ const StakeForm = ({}) => {
             className={`${styles["stake-input"]} d-flex align-items-center justify-content-between p-0`}
           >
             <Form.Control
-              type="number"
+              type="text"
               value={amount}
-              max={availableAmount}
-              min={0}
               className={styles["stake-input"]}
               onChange={(e) => handleInput(e)}
+              disabled={!userWallet.selectedAddress}
             />
             <div
               className={`${styles["combo-input-btn"]} d-flex align-items-center justify-content-center`}
@@ -76,8 +81,8 @@ const StakeForm = ({}) => {
                   amount > 0 ? "cursor-pointer" : ""
                 }`}
                 variant={availableAmount > 0 ? "primary" : "secondary"}
-                disabled={availableAmount == 0}
-                onClick={() => setAmount(availableAmount)}
+                disabled={availableAmount == 0 }
+                onClick={() => setAmount(Math.floor(availableAmount))}
               >
                 <b>Max.</b>
               </Button>
@@ -93,7 +98,7 @@ const StakeForm = ({}) => {
           md="12"
           className={`${styles["estimated-reward-input"]} d-flex align-items-center justify-content-between`}
         >
-          <div>{estimatedRewards}</div>
+          <div>{stStrkRewards}</div>
           <div>
             <img src="/images/starknet-icon.svg" />
             <span>stSTRK</span>
@@ -104,7 +109,7 @@ const StakeForm = ({}) => {
             <Button
               variant="primary"
               className={styles["stake-btn"]}
-              disabled={amount == 0 || isProcessing}
+              disabled={amount == 0 || isProcessing || amount < 10}
               onClick={() => onStake()}
             >
               Stake Now
