@@ -1,6 +1,3 @@
-// app/store/useStore.js
-// "use client"; // Required for Zustand stores in Next.js app directory
-
 import { create } from "zustand";
 import { formatAmount } from "../plugins/formatAmount";
 import {
@@ -25,22 +22,11 @@ const useStore = create((set) => ({
       modalMode: "alwaysAsk",
       modalTheme: "light",
     });
-    let myWalletAccount = null;
-    if (selectedWalletSWO.id == "argentX") {
-      myWalletAccount = new WalletAccount(
-        { nodeUrl: process.env.NEXT_PUBLIC_STARKNET_NODE_URL },
-        selectedWalletSWO
-      );
-    }
-    useStore.getState().setWalletAccount(myWalletAccount);
+    useStore.getState().setWalletAccount(selectedWalletSWO);
     useStore.getState().updateWallet(selectedWalletSWO);
   },
 
   setWalletAccount: (newWalletAccount) => {
-    if (!(newWalletAccount instanceof WalletAccount)) {
-      // this must be WalletAccount instance
-      newWalletAccount = new WalletAccount(newWalletAccount);
-    }
     set({ walletAccount: newWalletAccount });
   },
   updateWallet: async (newWallet) => {
@@ -56,16 +42,20 @@ const useStore = create((set) => ({
   availableAmount: 0,
   setAvailableAmount: (amount) =>
     set({ availableAmount: formatAmount(amount) }),
+  
+  withdrawableBalance: 0,
+  setWithdrawableBalance: (newBalance) =>
+    set({ withdrawableBalance: formatAmount(newBalance) }),
 
-  availableWithdrawBalance: 0,
-  setAvailableWithdrawBalance: (newBalance) =>
-    set({ availableWithdrawBalance: newBalance }),
+  availableStakedStrkAmount: 0,
+  setAvailableStakedStrkAmount: (amount) =>
+    set({ availableStakedStrkAmount: formatAmount(amount) }),
 
-  estimatedRewards: 0,
-  setEstimatedRewards: (amount) => set({ estimatedRewards: amount }),
+  stStrkRewards: 0,
+  setStStrkRewards: (amount) => set({ stStrkRewards: amount }),
 
-  estimatedWithdrawal: 0,
-  setEstimatedWithdrawal: (amount) => set({ estimatedWithdrawal: amount }),
+  strkRewards: 0,
+  setStrkRewards: (amount) => set({ strkRewards: amount }),
 
   allWithdrawalRequests: 0,
   setAllWithdrawalRequests: (requests) =>
@@ -73,7 +63,7 @@ const useStore = create((set) => ({
 
   availableWithdrawalRequests: 0,
   setAvailableWithdrawalRequests: (requests) =>
-    set({ availableWithdrawalRequests: requests }),
+    set({ availableWithdrawalRequests: requests.length }),
 
   clearUser: () => set({ wallet: {} }),
   balances: {},
@@ -96,51 +86,68 @@ const useStore = create((set) => ({
       }
       useStore.getState().setIsProcessing(false);
       useStore.getState().setAvailableAmount(balance);
-      useStore.getState().getWithdrawBalance();
       useStore.getState().getWithdrawalRequests();
     } catch (error) {
       console.error("Error fetching balance:", error);
     }
   },
 
-  getWithdrawBalance: async () => {
+  getStakedStrkBalance: async () => {
     const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
-    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
+    const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const withdrawableAmount = await contract.get_withdrawable_amount(
+    const stakedStrkAmount = await contract.balance_of(
       useStore.getState().userWallet.selectedAddress
     );
-    useStore.getState().setAvailableWithdrawBalance(withdrawableAmount);
+    useStore.getState().setAvailableStakedStrkAmount(stakedStrkAmount);
+  },
+
+  getWithdrawableBalance: async () => {
+    const provider = new RpcProvider({
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    const withdrawableAmount = await contract.max_withdraw(
+      useStore.getState().userWallet.selectedAddress
+    );
+    useStore.getState().setWithdrawableBalance(withdrawableAmount);
   },
 
   withdraw: async () => {
     const userWallet = useStore.getState().walletAccount;
-    const withdrawCallData = CallData.compile({
-      user: userWallet.address,
-    });
     useStore.getState().setIsProcessing(true);
-    await userWallet.execute({
+    const tx = await userWallet.execute({
       contractAddress: process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS,
-      calldata: withdrawCallData,
       entrypoint: "withdraw",
     });
     useStore.getState().setIsProcessing(false);
   },
 
-  getEstimatedReward: async (amountOfToken, type) => {
+  convertToShares: async (amount) => {
     const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
-    const address = process.env.NEXT_PUBLIC_LST_CONTRACT_ADDRESS;
+    const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    if (type == "withdraw") {
-      const rewards = await contract.convert_to_assets(amountOfToken);
-      useStore.getState().setEstimatedWithdrawal(rewards);
-    }
+    const rewards = await contract.convert_to_shares(amount);
+    useStore.getState().setStStrkRewards(rewards);
+  },
+
+  convertToAssets: async (amount) => {
+    const provider = new RpcProvider({
+      nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
+    });
+    const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
+    const { abi } = await provider.getClassAt(address);
+    const contract = new Contract(abi, address, provider);
+    const rewards = await contract.convert_to_assets(amount);
+    useStore.getState().setStrkRewards(rewards);
   },
 
   getWithdrawalRequests: async () => {
@@ -153,11 +160,11 @@ const useStore = create((set) => ({
     const allWithdrawalRequests = await contract.get_all_withdrawal_requests(
       useStore.getState().userWallet.selectedAddress
     );
+    useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests);
     const availableWithdrawalRequests =
       await contract.get_available_withdrawal_requests(
         useStore.getState().userWallet.selectedAddress
       );
-    useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests);
     useStore
       .getState()
       .setAvailableWithdrawalRequests(availableWithdrawalRequests);
@@ -167,7 +174,6 @@ const useStore = create((set) => ({
     const userWallet = useStore.getState().walletAccount;
     const requestWithdrawCallData = CallData.compile({
       shares: cairo.uint256(amount * Math.pow(10, 18)),
-      user: userWallet.address,
     });
     useStore.getState().setIsProcessing(true);
     const txResponse = await userWallet.execute({
@@ -188,11 +194,11 @@ const useStore = create((set) => ({
 
     const depositCallData = CallData.compile({
       amount: cairo.uint256(amount * Math.pow(10, 18)),
-      receiver: userWallet.address,
-      user: userWallet.address,
+      receiver: userWallet.selectedAddress,
+      user: userWallet.selectedAddress,
     });
     useStore.getState().setIsProcessing(true);
-    const txResponse = await userWallet.execute([
+    await userWallet.account.execute([
       {
         contractAddress: process.env.NEXT_PUBLIC_STARKSCAN_CONTRACT_ADDRESS,
         calldata: approveCallData,

@@ -1,6 +1,7 @@
 "use client";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
 import { usePathname } from "next/navigation";
@@ -8,7 +9,6 @@ import { usePathname } from "next/navigation";
 const Header = () => {
   const { userWallet, connectWallet } = useStore();
   const pathname = usePathname();
-  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
@@ -23,19 +23,19 @@ const Header = () => {
         <div className="menu-action">
           <ul className="nav-links">
               <li>
-            <a href="/home" className={pathname === '/home' ? 'current-page' : ''}>
+            <Link href="/home" className={pathname === '/home' ? 'current-page' : ''}>
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/staking" className={pathname === '/staking' ? 'current-page' : ''}>
+            <Link href="/staking" className={pathname === '/staking' ? 'current-page' : ''}>
               Staking
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/faq" className={pathname === '/faq' ? 'current-page' : ''}>
+            <Link href="/faq" className={pathname === '/faq' ? 'current-page' : ''}>
               FAQ
-            </a>
+            </Link>
           </li>
             <li>
               {!walletAddress && (
