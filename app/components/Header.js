@@ -3,10 +3,11 @@ import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { userWallet, connectWallet } = useStore();
-
+  const pathname = usePathname();
   const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {

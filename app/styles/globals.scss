@@ -35,7 +35,7 @@ body {
 
   max-width: 100%;
   margin: 0 auto;
-  padding: 0 20px; /* Add some padding on the sides */
+  padding: 0; 
 }
 
 /* Header Section */
@@ -51,17 +51,6 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-primary);
-  line-height: 1.6;
-  color: var(--text);
-  background-color: #FDFDFF;
-
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 20px; /* Add some padding on the sides */
 }
 
 /* Header Section */
@@ -262,16 +251,16 @@ body {
 
 /* Hero Section */
 /* -------------------- Animation -------------*/
-.hero-left {
-  // opacity: 0;  
-  transform: translateY(20px); 
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
-}
+// .hero-left {
+//   // opacity: 0;  
+//   transform: translateY(20px); 
+//   transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+// }
 
-.hero-left.in-view {
-  opacity: 1; 
-  transform: translateY(0); 
-}
+// .hero-left.in-view {
+//   opacity: 1; 
+//   transform: translateY(0); 
+// }
 
 
 .separator {
@@ -294,18 +283,19 @@ body {
 
 .icon-stake {
   width: 506px;
-  height: 560px;
+  height: 530px;
 
-  position: absolute;
-  top: 10%;
-  right: 30%;
-  z-index: 1;
+  // position: absolute;
+  // top: 10%;
+  // right: 30%;
+  // z-index: 1;
 }
 
 .symbol-icon {
   position: absolute;
   top: 62.5%;
-  right: 31.5%;
+  right: 30px;
+
   z-index: 3;
 
   width: 158px;
@@ -471,7 +461,7 @@ body {
 
 .hero-section {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: stretch; 
   margin: 0 auto;
   position: relative;
