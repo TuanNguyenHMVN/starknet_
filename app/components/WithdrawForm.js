@@ -8,13 +8,17 @@ import { useDebounce } from "../hooks/useDebounce";
 const WithdrawForm = ({}) => {
   const {
     userWallet,
-    availableWithdrawBalance,
-    // getPendingWithdraws,
-    estimatedWithdrawal,
-    getEstimatedReward,
+    withdrawableBalance,
+    getWithdrawalRequests,
+    convertToAssets,
+    strkRewards,
     allWithdrawalRequests,
     availableWithdrawalRequests,
     withdraw,
+    requestWithdrawal,
+    getStakedStrkBalance,
+    getWithdrawableBalance,
+    availableStakedStrkAmount,
     isProcessing,
   } = useStore();
 
@@ -22,36 +26,49 @@ const WithdrawForm = ({}) => {
   const [isClaim, setIsClaim] = useState(false);
 
   const [walletAddress, setWalletAddress] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0");
 
-  const debouncedValue = useDebounce(amount, 100);
+  const debouncedValue = useDebounce(amount, 0);
 
   useEffect(() => {
-    if (debouncedValue) {
-      getEstimatedReward(amount, "withdraw");
-    }
+    convertToAssets(amount);
   }, [debouncedValue]);
+  const handleInput = (e) => {
+    e.target.value = e.target.value.replace(/[^0-9]/g, "");
+    if (e.target.value) {
+      const maxAmount = isRequest ? availableStakedStrkAmount : withdrawableBalance;
+      if (Number(e.target.value) > Number(maxAmount)) {
+        e.target.value = Number(maxAmount);
+      }
+      setAmount(Math.floor(e.target.value));
+    } else {
+      setAmount("0");
+    }
+  };
+
+  
+
+  useEffect(() => {
+    getStakedStrkBalance();
+  }, []);
 
   const handleAction = (action) => {
     if (action == "Request") {
       setIsRequest(true);
       setIsClaim(false);
+      getStakedStrkBalance();
     } else if (action == "Claim") {
       setIsClaim(true);
       setIsRequest(false);
-      // getPendingWithdraws();
+      getWithdrawableBalance();
+      getWithdrawalRequests();
     }
   };
 
   const onRequestWithdrawal = () => {
-    requestWithdrawal(amount.value);
-    setAmount(0);
+    requestWithdrawal(amount);
+    // setAmount(0);
   };
-
-  const handleInput = (e) => {
-    setAmount(e.target.value);
-  };
-
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
@@ -88,7 +105,7 @@ const WithdrawForm = ({}) => {
           className={`${styles["available-funds"]} d-flex align-items-center justify-content-between`}
         >
           <div>
-            {availableWithdrawBalance} {isRequest ? "stSTRK" : "STRK"}
+            {isRequest ? availableStakedStrkAmount : withdrawableBalance} {isRequest ? "stSTRK" : "STRK"}
           </div>
           <div className={styles["wallet-info"]}>
             {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}{" "}
@@ -120,10 +137,8 @@ const WithdrawForm = ({}) => {
                 className={`${styles["withdraw-input"]} d-flex align-items-center justify-content-between p-0`}
               >
                 <Form.Control
-                  type="number"
+                  type="text"
                   value={amount}
-                  max={availableWithdrawBalance}
-                  min={0}
                   onChange={(e) => handleInput(e)}
                   className={styles["stake-input"]}
                 />
@@ -132,7 +147,8 @@ const WithdrawForm = ({}) => {
                 >
                   <Button
                     className={`${styles["max-stake-btn"]} cursor-pointer`}
-                    disabled={availableWithdrawBalance == 0}
+                    disabled={isRequest ? availableStakedStrkAmount == 0 : withdrawableBalance == 0}
+                    onClick={() => setAmount(Math.floor(isRequest ? availableStakedStrkAmount : withdrawableBalance))}
                   >
                     <b>Max.</b>
                   </Button>
@@ -148,7 +164,7 @@ const WithdrawForm = ({}) => {
               md="12"
               className={`${styles["estimated-reward-input"]} d-flex align-items-center justify-content-between`}
             >
-              <div>{estimatedWithdrawal}</div>
+              <div>{strkRewards}</div>
               <div>
                 <img src="/images/starknet-icon.svg" />
                 <span>STRK</span>
@@ -160,9 +176,9 @@ const WithdrawForm = ({}) => {
           <Button
             variant="primary"
             className={styles["withdraw-btn"]}
-            disabled={
-              amount == 0 || amount > availableWithdrawBalanc || isProcessing
-            }
+            // disabled={
+            //   amount == 0 || amount > availableWithdrawBalanc || isProcessing
+            // }
             onClick={() => (isRequest ? onRequestWithdrawal() : withdraw())}
           >
             {isRequest ? "Request" : "Withdraw Now"}
