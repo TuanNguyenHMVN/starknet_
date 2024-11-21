@@ -42,7 +42,7 @@ const useStore = create((set) => ({
   availableAmount: 0,
   setAvailableAmount: (amount) =>
     set({ availableAmount: formatAmount(amount) }),
-
+  
   withdrawableBalance: 0,
   setWithdrawableBalance: (newBalance) =>
     set({ withdrawableBalance: formatAmount(newBalance) }),

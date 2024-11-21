@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const footerLogo = document.querySelector(".footer-logo");
   const businessSteps = document.querySelectorAll(".business-step");
   const faqItems = document.querySelectorAll(".faq-item");
+  const homeLink = document.querySelector('.nav-links a[href="/StakeStark_-main"]');
   
     // scroll to the top of the page
     function scrollToTop() {
@@ -33,6 +34,10 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault(); 
         scrollToTop();
       });
+    }
+
+    if (window.location.pathname === '/StakeStark_-main/') {
+      homeLink.classList.add('current-page');
     }
 
   const observer = new IntersectionObserver(
