@@ -10,6 +10,8 @@ const Header = () => {
   const { userWallet, connectWallet } = useStore();
   const pathname = usePathname();
 
+  const [walletAddress, setWalletAddress] = useState("");
+
   useEffect(() => {
     setWalletAddress(userWallet.selectedAddress || "");
   }, [userWallet]);
