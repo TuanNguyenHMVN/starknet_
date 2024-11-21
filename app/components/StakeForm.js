@@ -18,7 +18,6 @@ const StakeForm = ({}) => {
 
   const [walletAddress, setWalletAddress] = useState("");
   const [amount, setAmount] = useState("0");
-
   const debouncedValue = useDebounce(amount, 0);
 
   useEffect(() => {

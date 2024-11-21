@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Header.module.scss";
 import DropdownMenu from "./DropdownMenu"; // Import CSS module
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { userWallet, connectWallet } = useStore();
+  const pathname = usePathname();
 
   const [walletAddress, setWalletAddress] = useState("");
 
@@ -23,13 +25,19 @@ const Header = () => {
         <div className="menu-action">
           <ul className="nav-links">
             <li>
-              <Link href="/home">Home</Link>
+              <Link href="/home" className={pathname === '/home' ? 'current-page' : ''}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link href="/staking">Staking</Link>
+              <Link href="/staking" className={pathname === '/staking' ? 'current-page' : ''}>
+                Staking
+              </Link>
             </li>
             <li>
-              <Link href="/faq">FAQs</Link>
+              <Link href="/faq" className={pathname === '/faq' ? 'current-page' : ''}>
+                FAQ
+              </Link>
             </li>
             <li>
               {!walletAddress && (
