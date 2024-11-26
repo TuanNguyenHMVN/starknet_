@@ -15,7 +15,12 @@
 }
 
 .dropdown-item {
+  text-align: center;
+}
+
+.menu-link {
   color: #0f0b46 !important;
+  text-decoration: none;
 }
 
 .account-info {
@@ -24,7 +29,6 @@
   border-radius: 20px;
 }
 .login-btn {
-  margin-top: 10px;
   border-radius: 20px;
   font-size: 14px;
 }

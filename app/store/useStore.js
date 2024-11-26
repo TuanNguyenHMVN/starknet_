@@ -42,7 +42,7 @@ const useStore = create((set) => ({
   availableAmount: 0,
   setAvailableAmount: (amount) =>
     set({ availableAmount: formatAmount(amount) }),
-  
+
   withdrawableBalance: 0,
   setWithdrawableBalance: (newBalance) =>
     set({ withdrawableBalance: formatAmount(newBalance) }),
@@ -109,10 +109,10 @@ const useStore = create((set) => ({
     const provider = new RpcProvider({
       nodeUrl: process.env.NEXT_PRIVATE_PROVIDER_URL,
     });
-    const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
+    const address = process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS;
     const { abi } = await provider.getClassAt(address);
     const contract = new Contract(abi, address, provider);
-    const withdrawableAmount = await contract.max_withdraw(
+    const withdrawableAmount = await contract.get_withdrawable_amount(
       useStore.getState().userWallet.selectedAddress
     );
     useStore.getState().setWithdrawableBalance(withdrawableAmount);
@@ -121,7 +121,7 @@ const useStore = create((set) => ({
   withdraw: async () => {
     const userWallet = useStore.getState().walletAccount;
     useStore.getState().setIsProcessing(true);
-    const tx = await userWallet.execute({
+    const tx = await userWallet.account.execute({
       contractAddress: process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS,
       entrypoint: "withdraw",
     });
@@ -176,7 +176,7 @@ const useStore = create((set) => ({
       shares: cairo.uint256(amount * Math.pow(10, 18)),
     });
     useStore.getState().setIsProcessing(true);
-    const txResponse = await userWallet.execute({
+    const txResponse = await userWallet.account.execute({
       contractAddress: process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS,
       calldata: requestWithdrawCallData,
       entrypoint: "request_withdrawal",

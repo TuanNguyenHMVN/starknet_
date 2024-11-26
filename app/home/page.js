@@ -1,12 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function EmbeddedPage() {
+  const [isMobile, setIsMobile] = useState(false)
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    };
+
+    handleResize()
+
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, []);
+
   useEffect(() => {
     const aboutSection = document.querySelector(".about-section");
     const heroLeft = document.querySelector(".hero-left");
@@ -215,10 +231,10 @@ export default function EmbeddedPage() {
   return (
     <>
       <>
-        <div className="container-fluid">
-          <section id="home" className="hero-section d-flex">
-            <div className="container-xxl row w-100">
-              <div className="hero-left col d-flex flex-column justify-content-center align-items-end border-end">
+        <div>
+          <section id="home" className="hero-section">
+            <div className={`container-lg ${isMobile ? "" : "row w-100"}`}>
+              <div className={` hero-left col pe-lg-5 d-flex flex-column justify-content-center align-items-center`}>
                 <div className="hero-left_container">
                   <img
                     className="pointer"
@@ -237,12 +253,14 @@ export default function EmbeddedPage() {
                     tokens, a liquid staking derivative that allows you to
                     remain flexible while securing the network.
                   </p>
-                  <button href="#cta" className="start-button">
-                    Stake now
+                  <button className="start-button">
+                    <Link href="/staking">
+                      Stake now
+                    </Link>
                   </button>
                 </div>
               </div>
-              <div className="hero-right col d-flex flex-column justify-content-center align-items-end">
+              <div className={`hero-right col ps-lg-5 d-flex flex-column position-relative justify-content-center ${isMobile ? "align-items-center" : "align-items-end"}`}>
                 <img
                   className="icon-stake "
                   src="/images/icon_stake.svg"
@@ -257,7 +275,7 @@ export default function EmbeddedPage() {
             </div>
           </section>
 
-          <section id="about" className="about-section container-xxl">
+          <section id="about" className="about-section container">
             <div className="about-content">
               <div className="staking-steps">
                 <div className="step">
@@ -322,7 +340,7 @@ export default function EmbeddedPage() {
             </div>
           </section>
 
-          <section id="services" className="services-section container-xxl">
+          <section id="services" className="services-section container">
             <div className="row justify-content-center">
               <div className="col-12 col-md-10 text-center">
                 <h2>
@@ -342,18 +360,18 @@ export default function EmbeddedPage() {
             </div>
           </section>
 
-          <section id="contact" className="contact-section container-xxl">
+          <section id="contact" className="contact-section container">
             <div className="row justify-content-center">
               <div className="col-lg-12 col-lg-24">
                 <h1
-                  className="fw-normal display-4"
-                  style={{
-                    color: "var(--blue, #0F0B46)",
-                    fontFamily: "DM Sans",
-                    fontSize: "68px",
-                    lineHeight: "120%",
-                    letterSpacing: "-1.36px",
-                  }}
+                  className="contact-title"
+                  // style={{
+                  //   color: "var(--blue, #0F0B46)",
+                  //   fontFamily: "DM Sans",
+                  //   fontSize: "68px",
+                  //   lineHeight: "120%",
+                  //   letterSpacing: "-1.36px",
+                  // }}
                 >
                   Why Stake Your Tokens
                   <br />
@@ -455,8 +473,8 @@ export default function EmbeddedPage() {
           </section>
 
           <section id="business" className="business-section">
-            <div className="business-content container-xxl row w-100">
-              <div className="left-column">
+            <div className="business-content container row w-100">
+              <div className="col-lg-5 align-items-start left-column">
                 <h1>How to Stake</h1>
                 <h2>
                   Your Starknet <br /> Tokens and Receive stSTRK?
@@ -467,7 +485,7 @@ export default function EmbeddedPage() {
                   placeholder="pointer-icon"
                 />
               </div>
-              <div className="right-column">
+              <div className="right-column px-5">
                 <div className="business-step">
                   <div className="step-number">Step 1</div>
                   <h2 className="step-title">Connect Your Wallet</h2>
