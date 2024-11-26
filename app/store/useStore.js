@@ -98,7 +98,6 @@ const useStore = create((set) => ({
     });
     const address = process.env.NEXT_PUBLIC_ETH_CONTRACT_ADDRESS;
     const { abi } = await provider.getClassAt(address);
-    console.log("🚀 ~ getStakedStrkBalance: ~ abi:", abi)
     const contract = new Contract(abi, address, provider);
     const stakedStrkAmount = await contract.balance_of(
       useStore.getState().userWallet.selectedAddress
@@ -122,8 +121,6 @@ const useStore = create((set) => ({
   withdraw: async () => {
     const userWallet = useStore.getState().walletAccount;
     useStore.getState().setIsProcessing(true);
-    console.log("🚀 ~ withdraw: ~ process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS:", process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS)
-
     const tx = await userWallet.account.execute({
       contractAddress: process.env.NEXT_PUBLIC_MAIN_CONTRACT_ADDRESS,
       entrypoint: "withdraw",
@@ -163,14 +160,11 @@ const useStore = create((set) => ({
     const allWithdrawalRequests = await contract.get_all_withdrawal_requests(
       useStore.getState().userWallet.selectedAddress
     );
-    console.log("🚀 ~ getWithdrawalRequests: ~ allWithdrawalRequests:", allWithdrawalRequests)
     useStore.getState().setAllWithdrawalRequests(allWithdrawalRequests);
     const availableWithdrawalRequests =
       await contract.get_available_withdrawal_requests(
         useStore.getState().userWallet.selectedAddress
       );
-      console.log("🚀 ~ getWithdrawalRequests: ~ availableWithdrawalRequests:", availableWithdrawalRequests)
-
     useStore
       .getState()
       .setAvailableWithdrawalRequests(availableWithdrawalRequests);
