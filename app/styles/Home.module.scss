@@ -168,6 +168,9 @@
   font-weight: 500;
   letter-spacing: -0.32px;
   text-transform: capitalize;
+  a {
+    color: var(--white) !important;
+  }
 }
 
 .mobile-menu-icon span {
@@ -1604,13 +1607,6 @@
   text-transform: capitalize;
 }
 
-// footer {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-
-//   background: #FDFDFF;
-// }
 
 .footer-container {
   display: flex;

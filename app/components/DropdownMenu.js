@@ -1,34 +1,16 @@
 "use client";
 import React from "react";
 import { Dropdown, Button } from "react-bootstrap";
+import Link from "next/link";
 import useStore from "../store/useStore";
 import { useEffect, useState } from "react";
 import styles from "../styles/DropdownMenu.module.scss";
+import { usePathname, useRouter } from "next/navigation";
 
-import { connect } from "get-starknet"; // v4.0.0 min
-import { WalletAccount } from "starknet";
+const DropdownMenu = () => {
+  const pathName = usePathname();
+  const router = useRouter();
 
-const DropdownMenu = ({ isHomePage }) => {
-  const { userWallet, updateWallet, setWalletAccount } = useStore();
-
-  const [walletAddress, setWalletAddress] = useState("");
-
-  useEffect(() => {
-    setWalletAddress(userWallet.selectedAddress || "");
-  }, [userWallet]);
-
-  const connectWallet = async () => {
-    const selectedWalletSWO = await connect({
-      modalMode: "alwaysAsk",
-      modalTheme: "light",
-    });
-    const myWalletAccount = new WalletAccount(
-      { nodeUrl: process.env.NEXT_PUBLIC_STARKNET_NODE_URL },
-      selectedWalletSWO
-    );
-    setWalletAccount({ ...myWalletAccount });
-    updateWallet(selectedWalletSWO);
-  };
   return (
     <div className={styles["menu-dropdown-icon"]}>
       <Dropdown>
@@ -38,7 +20,7 @@ const DropdownMenu = ({ isHomePage }) => {
             width={32}
             height={32}
             viewBox="0 0 32 32"
-            fill="none"
+            fill="#0F0B46"
           >
             <path
               d="M4 24V21.3333H28V24H4ZM4 17.3333V14.6667H28V17.3333H4ZM4 10.6667V8H28V10.6667H4Z"
@@ -48,28 +30,33 @@ const DropdownMenu = ({ isHomePage }) => {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          {!isHomePage && (
-            <Dropdown.Item>
-              {walletAddress && (
-                <div className={styles["account-info"]}>
-                  {`${walletAddress.slice(0, 5)}...${walletAddress.slice(-3)}`}
-                </div>
-              )}
-              {!walletAddress && (
-                <Button
+          {pathName !== "/staking" && (
+            <Dropdown.Item className="text-center">
+              <Button
                   variant="primary"
                   className={styles["login-btn"]}
-                  onClick={() => connectWallet()}
+                  onClick={() => router.push('/staking')}
                 >
-                  Connect Wallet
+                  Stake Now
                 </Button>
-              )}
             </Dropdown.Item>
           )}
-          {!isHomePage && <Dropdown.Divider />}
-          <Dropdown.Item href="/home">Home</Dropdown.Item>
-          <Dropdown.Item href="/staking">Staking</Dropdown.Item>
-          <Dropdown.Item href="/faq">FAQs</Dropdown.Item>
+          {pathName !== "/staking" && <Dropdown.Divider />}
+          <Dropdown.Header className={styles["dropdown-item"]}>
+            <Link href="/home" className={styles["menu-link"]}>
+              Home
+            </Link>
+          </Dropdown.Header>
+          <Dropdown.Header className={styles["dropdown-item"]}>
+            <Link href="/staking" className={styles["menu-link"]}>
+              Staking
+            </Link>
+          </Dropdown.Header>
+          <Dropdown.Header className={styles["dropdown-item"]}>
+            <Link href="/faq" className={styles["menu-link"]}>
+              FAQs
+            </Link>
+          </Dropdown.Header>
         </Dropdown.Menu>
       </Dropdown>
     </div>

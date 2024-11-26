@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -252,8 +253,10 @@ export default function EmbeddedPage() {
                     tokens, a liquid staking derivative that allows you to
                     remain flexible while securing the network.
                   </p>
-                  <button href="#cta" className="start-button">
-                    Stake now
+                  <button className="start-button">
+                    <Link href="/staking">
+                      Stake now
+                    </Link>
                   </button>
                 </div>
               </div>
